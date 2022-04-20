@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: distribution-center-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: distributioncenterapi
+  template:
+    metadata:
+      labels:
+        app: distributioncenterapi
+    spec:
+      containers:
+        - name: distributioncenterapi
+          image: binarythistle/distribution-center-api:latest
