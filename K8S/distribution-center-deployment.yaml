@@ -14,4 +14,7 @@ spec:
     spec:
       containers:
         - name: distributioncenterapi
-          image: binarythistle/distribution-center-api:latest
+          image: bomchik/distribution-center-api:latest
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
