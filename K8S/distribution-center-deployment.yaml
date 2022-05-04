@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: distribution-center-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: distributioncenterapi
+  template:
+    metadata:
+      labels:
+        app: distributioncenterapi
+    spec:
+      containers:
+        - name: distributioncenterapi
+          image: bomchik/distribution-center-api:latest
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"

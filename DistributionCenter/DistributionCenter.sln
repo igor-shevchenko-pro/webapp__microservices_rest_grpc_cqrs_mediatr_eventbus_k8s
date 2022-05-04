@@ -13,6 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributionCenter.DAL.MSSQ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributionCenter.BLL", "DistributionCenter.BLL\DistributionCenter.BLL.csproj", "{C25ADDE4-1763-46A3-BAEB-00D8CA3D56A7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutiom Items", "Solutiom Items", "{B1C403D2-FB5A-46B6-86BC-EEDDF6E539D8}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\alesy\Downloads\dotnet-docker-main\dotnet-docker-main\samples\aspnetapp\.dockerignore = C:\Users\alesy\Downloads\dotnet-docker-main\dotnet-docker-main\samples\aspnetapp\.dockerignore
+		C:\Users\alesy\Downloads\dotnet-docker-main\dotnet-docker-main\samples\aspnetapp\Dockerfile = C:\Users\alesy\Downloads\dotnet-docker-main\dotnet-docker-main\samples\aspnetapp\Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
