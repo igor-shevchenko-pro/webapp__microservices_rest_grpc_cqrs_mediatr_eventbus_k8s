@@ -1,0 +1,23 @@
+--- Docker
+-----------
+docker build -t <your docker hub id>/<docker-image name> .                                                      -- create image 
+docker run -p 8080:80 -d <your docker hub id>/<docker-image name>                                               -- run image (every time create new container)
+docker run -p 8080:80 -d -e "ASPNETCORE_ENVIRONMENT=Development" <your docker hub id>/<docker-image name>       -- run image with environment variable (every time create new container)
+docker ps                                                                                                       -- list of running containers
+docker ps --filter "status=exited" / docker ps -f "status=exited"                                               -- list stopped containers
+docker ps --all / docker ps -a                                                                                  -- list all containers
+docker start container-id                                                                                       -- start existing container 
+docker stop container-id (or container name)                                                                    -- stop container
+docker push <your docker hub id>/<docker-image name>                                                            -- send image to docker-hub
+  
+
+---Kubernetes
+--------------
+kubectl get deployments                                                                                         -- see information about deployments
+kubectl get pods                                                                                                -- see information about pods
+kubectl apply -f file-name-deployment.yaml                                                                      -- apply a configuration to a resource by file name
+kubectl delete deployment deployment-name                                                                       -- delete deployment
+kubectl get services                                                                                            -- 
+
+
+
