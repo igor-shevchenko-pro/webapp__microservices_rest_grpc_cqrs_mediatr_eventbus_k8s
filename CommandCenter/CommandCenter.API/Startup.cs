@@ -1,16 +1,21 @@
+using CommandCenter.API.Configurations.Serilog;
+using CommandCenter.API.Configurations.Swagger;
+using CommandCenter.API.Middlewares;
+using CommandCenter.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Serilog;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace CommandCenter.API
 {
@@ -27,33 +32,73 @@ namespace CommandCenter.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddControllers(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommandCenter.API", Version = "v1" });
+                options.SuppressAsyncSuffixInActionNames = false;
+                options.RespectBrowserAcceptHeader = true;
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = ApiVersion.Default;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new MediaTypeApiVersionReader(Constants.HttpContextHeaderKeys.API_VERSION),
+                    new HeaderApiVersionReader(Constants.HttpContextHeaderKeys.API_VERSION)
+                );
+            });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+            });
+            services.AddSwaggerGen(options =>
+            {
+                options.OperationFilter<SwaggerDefaultValues>();
+                options.ResolveConflictingActions(descriptions => { return descriptions.First(); });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CommandCenter.API v1"));
             }
-
+            app.UseRequestCorrelationId();
+            app.UseSerilogRequestLogging(options =>
+            {
+                options.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
+            });
+            app.UseExceptionHandlingMiddleware();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                        description.GroupName.ToUpperInvariant());
+                }
+            });
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //endpoints.MapGrpcService<GrpcPlatformService>();
+
+                //endpoints.MapGet("/protos/platforms.proto", async context =>
+                //{
+                //    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
+                //});
             });
         }
     }
