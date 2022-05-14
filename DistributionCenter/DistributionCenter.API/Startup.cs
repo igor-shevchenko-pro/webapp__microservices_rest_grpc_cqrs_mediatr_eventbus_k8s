@@ -27,6 +27,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 using Serilog;
 using DistributionCenter.API.Configurations.Serilog;
+using DistributionCenter.Core.Interfaces.DataProviders;
+using DistributionCenter.DataProviders.Http;
 
 namespace DistributionCenter.API
 {
@@ -66,7 +68,8 @@ namespace DistributionCenter.API
             services.AddScoped<IPlatformService, PlatformService>();
             services.AddScoped<IServerService, ServerService>();
 
-            //services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+            services.AddHttpClient<IPlatformSyncDataProvider, PlatformSyncDataProvider>();
+
             //services.AddSingleton<IMessageBusClient, MessageBusClient>();
             //services.AddGrpc();
             services.AddControllers(options =>

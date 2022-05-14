@@ -23,6 +23,7 @@
     <ProjectReference Include="..\DistributionCenter.Core\DistributionCenter.Core.csproj" />
     <ProjectReference Include="..\DistributionCenter.DAL.MSSQL\DistributionCenter.DAL.MSSQL.csproj" />
     <ProjectReference Include="..\DistributionCenter.DAL\DistributionCenter.DAL.csproj" />
+    <ProjectReference Include="..\DistributionCenter.DataProviders\DistributionCenter.DataProviders.csproj" />
   </ItemGroup>
 
   <ItemGroup>

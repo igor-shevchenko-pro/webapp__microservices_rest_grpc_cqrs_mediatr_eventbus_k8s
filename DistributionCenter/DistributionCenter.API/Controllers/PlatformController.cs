@@ -1,4 +1,5 @@
 ﻿using DistributionCenter.API.Controllers.Base;
+using DistributionCenter.Core.Interfaces.DataProviders;
 using DistributionCenter.Core.Interfaces.Services;
 using DistributionCenter.Core.Resources;
 using DistributionCenter.Core.Resources.Base;
@@ -22,9 +23,12 @@ namespace DistributionCenter.API.Controllers
     {
         private readonly IPlatformService _platformService;
 
-        public PlatformController(IPlatformService platformService)
+        private readonly IPlatformSyncDataProvider _platformSyncDataProvider;
+
+        public PlatformController(IPlatformService platformService, IPlatformSyncDataProvider platformSyncDataProvider)
         {
             _platformService = platformService;
+            _platformSyncDataProvider = platformSyncDataProvider;
         }
 
         /// <summary>
@@ -139,6 +143,9 @@ namespace DistributionCenter.API.Controllers
         public async Task<IActionResult> GetAsync(string id)
         {
             var model = await _platformService.GetAsync(id);
+
+            await _platformSyncDataProvider.SendDataToAsync(model);
+
             return Ok(model);
         }
 
