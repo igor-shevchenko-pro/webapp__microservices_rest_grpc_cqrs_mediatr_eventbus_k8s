@@ -23,9 +23,9 @@ namespace DistributionCenter.API.Controllers
     {
         private readonly IPlatformService _platformService;
 
-        private readonly IPlatformSyncDataProvider _platformSyncDataProvider;
+        private readonly IPlatformHttpDataProvider _platformSyncDataProvider;
 
-        public PlatformController(IPlatformService platformService, IPlatformSyncDataProvider platformSyncDataProvider)
+        public PlatformController(IPlatformService platformService, IPlatformHttpDataProvider platformSyncDataProvider)
         {
             _platformService = platformService;
             _platformSyncDataProvider = platformSyncDataProvider;
@@ -144,7 +144,7 @@ namespace DistributionCenter.API.Controllers
         {
             var model = await _platformService.GetAsync(id);
 
-            await _platformSyncDataProvider.SendDataToAsync(model);
+            await _platformSyncDataProvider.PostAsync(model);
 
             return Ok(model);
         }

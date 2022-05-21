@@ -59,6 +59,16 @@ namespace DistributionCenter.API.Middlewares
                     ex.InnerException?.Message ?? Constants.DEFAULT_ERROR_MESSAGE
                 );
             }
+            catch (HttpDataProviderException ex)
+            {
+                _logger.LogError(ex, $"HttpDataProviderException occured");
+                await HandleExceptionAsync(
+                    httpContext,
+                    ex.HttpStatusCode ?? HttpStatusCode.BadGateway,
+                    ex.Message,
+                    ex.InnerException?.Message ?? Constants.DEFAULT_ERROR_MESSAGE
+                );
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception occured");

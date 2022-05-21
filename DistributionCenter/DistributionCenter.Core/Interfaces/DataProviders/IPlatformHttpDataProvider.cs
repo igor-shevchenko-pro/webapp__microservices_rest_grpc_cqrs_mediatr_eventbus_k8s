@@ -3,7 +3,7 @@ using DistributionCenter.Core.Resources;
 
 namespace DistributionCenter.Core.Interfaces.DataProviders
 {
-    public interface IPlatformSyncDataProvider : IBaseSyncDataProvider<PlatformGetResource>
+    public interface IPlatformHttpDataProvider : IBaseHttpDataProvider<PlatformGetResource>
     {
     }
 }

@@ -68,7 +68,7 @@ namespace DistributionCenter.API
             services.AddScoped<IPlatformService, PlatformService>();
             services.AddScoped<IServerService, ServerService>();
 
-            services.AddHttpClient<IPlatformSyncDataProvider, PlatformSyncDataProvider>();
+            services.AddHttpClient<IPlatformHttpDataProvider, PlatformHttpDataProvider>();
 
             //services.AddSingleton<IMessageBusClient, MessageBusClient>();
             //services.AddGrpc();

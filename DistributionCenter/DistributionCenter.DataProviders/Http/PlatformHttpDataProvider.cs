@@ -7,16 +7,15 @@ using System.Net.Http;
 
 namespace DistributionCenter.DataProviders.Http
 {
-    public class PlatformSyncDataProvider : BaseSyncDataProvider<PlatformGetResource>, IPlatformSyncDataProvider
+    public class PlatformHttpDataProvider : BaseHttpDataProvider<PlatformGetResource>, IPlatformHttpDataProvider
     {
-        public PlatformSyncDataProvider(HttpClient httpClient, IConfiguration configuration)
+        public PlatformHttpDataProvider(HttpClient httpClient, IConfiguration configuration)
             : base(httpClient)
         {
             var baseAddress = configuration["CommandCenter.API:BaseAddress"];
 
-            httpClient.BaseAddress = new Uri(baseAddress);
+            httpClient.BaseAddress = new Uri(baseAddress + "platform");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Platform");
         }
     }
 }
