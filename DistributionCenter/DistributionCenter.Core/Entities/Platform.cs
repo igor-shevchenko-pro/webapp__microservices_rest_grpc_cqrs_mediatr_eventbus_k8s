@@ -9,9 +9,9 @@ namespace DistributionCenter.Core.Entities
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        public string Publisher { get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
 
         [Required]
-        public string Cost { get; set; } = string.Empty;
+        public double FileSize { get; set; }
     }
 }

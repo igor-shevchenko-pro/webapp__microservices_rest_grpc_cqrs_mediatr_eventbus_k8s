@@ -19,9 +19,9 @@ namespace DistributionCenter.Core.Helpers.EntityDbInitializeHelpers
 
         private void Initialize()
         {
-            DefaultCollection.Add(new Platform() { Name = ".Net", Publisher = "Microsoft", Cost = "Free" });
-            DefaultCollection.Add(new Platform() { Name = "SQL Server Express", Publisher = "Microsoft", Cost = "Free" });
-            DefaultCollection.Add(new Platform() { Name = "Kubernetes", Publisher = "Cloud Native Computing Foundation", Cost = "Free" });
+            DefaultCollection.Add(new Platform() { Name = "Doro", Version = "1.0.1", FileSize = 11.7 });
+            DefaultCollection.Add(new Platform() { Name = "Sata", Version = "10.4", FileSize = 125.4 });
+            DefaultCollection.Add(new Platform() { Name = "Maxis", Version = "4.7.3", FileSize = 32.0 });
         }
 
         private List<Platform> InitializeEnglish()
