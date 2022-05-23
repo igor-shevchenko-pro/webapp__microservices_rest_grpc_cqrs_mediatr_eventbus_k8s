@@ -64,7 +64,7 @@ namespace DistributionCenter.API.Middlewares
                 _logger.LogError(ex, $"HttpDataProviderException occured");
                 await HandleExceptionAsync(
                     httpContext,
-                    ex.HttpStatusCode ?? HttpStatusCode.BadGateway,
+                    ex?.HttpStatusCode ?? HttpStatusCode.BadGateway,
                     ex.Message,
                     ex.InnerException?.Message ?? Constants.DEFAULT_ERROR_MESSAGE
                 );

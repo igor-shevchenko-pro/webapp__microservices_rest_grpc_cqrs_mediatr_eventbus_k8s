@@ -15,12 +15,18 @@ namespace DistributionCenter.Core.Models.Exceptions
         {
         }
 
+        public HttpDataProviderException(string message, HttpStatusCode httpStatusCode)
+            : base(message)
+        {
+            _httpStatusCode = httpStatusCode;
+        }
+
         public HttpDataProviderException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
-        public HttpDataProviderException(string message, Exception innerException, HttpStatusCode? httpStatusCode)
+        public HttpDataProviderException(string message, Exception innerException, HttpStatusCode httpStatusCode)
             : base(message, innerException)
         {
             _httpStatusCode = httpStatusCode;

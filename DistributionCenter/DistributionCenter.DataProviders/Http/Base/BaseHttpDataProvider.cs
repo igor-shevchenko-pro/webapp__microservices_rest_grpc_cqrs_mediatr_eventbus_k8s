@@ -1,6 +1,5 @@
 ﻿using DistributionCenter.Core.Interfaces.DataProviders.Base;
 using DistributionCenter.Core.Models.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -22,21 +21,24 @@ namespace DistributionCenter.DataProviders.Http.Base
         public virtual async Task PostAsync(T resource)
         {
             var httpContent = new StringContent(JsonSerializer.Serialize(resource), Encoding.UTF8, HttpClient.DefaultRequestHeaders.Accept.ToString());
+            var httpResponse = await HttpClient.PostAsync(HttpClient.BaseAddress, httpContent);
 
-            HttpResponseMessage httpResponse = default(HttpResponseMessage);
-            try
+            if (!httpResponse.IsSuccessStatusCode)
             {
-                httpResponse = await HttpClient.PostAsync(HttpClient.BaseAddress, httpContent);
-            }
-            catch (Exception ex)
-            {
-                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, httpResponse?.StatusCode);
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}", httpResponse.StatusCode);
             }
         }
 
         public virtual async Task<IEnumerable<T>> GetAsync()
         {
-            throw new NotImplementedException();
+            var httpResponse = await HttpClient.GetAsync(HttpClient.BaseAddress);
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}", httpResponse.StatusCode);
+            }
+
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DistributionCenter.Core.Interfaces.DataProviders;
+﻿using DistributionCenter.Core;
+using DistributionCenter.Core.Interfaces.DataProviders;
 using DistributionCenter.Core.Resources;
 using DistributionCenter.DataProviders.Http.Base;
 using Microsoft.Extensions.Configuration;
@@ -13,9 +14,12 @@ namespace DistributionCenter.DataProviders.Http
             : base(httpClient)
         {
             var baseAddress = configuration["CommandCenter.API:BaseAddress"];
+            var apiVersion = configuration["CommandCenter.API:Version"];
 
             httpClient.BaseAddress = new Uri(baseAddress + "platform");
+            httpClient.DefaultRequestVersion = new Version(apiVersion);
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            httpClient.DefaultRequestHeaders.Add(Constants.HttpContextHeaderKeys.API_VERSION, apiVersion);
         }
     }
 }
