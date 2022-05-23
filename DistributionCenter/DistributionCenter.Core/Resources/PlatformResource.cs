@@ -11,13 +11,13 @@ namespace DistributionCenter.Core.Resources
         [Required(AllowEmptyStrings = false)]
         public virtual string Name { get; set; } = string.Empty;
 
-        [JsonPropertyName("publisher")]
+        [JsonPropertyName("version")]
         [Required(AllowEmptyStrings = false)]
-        public virtual string Publisher { get; set; } = string.Empty;
+        public virtual string Version { get; set; } = string.Empty;
 
-        [JsonPropertyName("cost")]
+        [JsonPropertyName("file_size")]
         [Required(AllowEmptyStrings = false)]
-        public virtual string Cost { get; set; } = string.Empty;
+        public virtual double FileSize { get; set; }
     }
 
     public class PlatformCreateResource : PlatformBaseResource
