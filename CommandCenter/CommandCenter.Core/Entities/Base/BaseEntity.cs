@@ -1,10 +1,9 @@
-﻿using DistributionCenter.Core.Entities.Enums;
-using DistributionCenter.Core.Interfaces.Entities.Base;
+﻿using CommandCenter.Core.Entities.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DistributionCenter.Core.Models.Base
+namespace CommandCenter.Core.Entities.Base
 {
     public abstract class BaseEntity : IBaseEntity
     {

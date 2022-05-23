@@ -1,4 +1,4 @@
-﻿namespace DistributionCenter.Core.Entities.Base
+﻿namespace DistributionCenter.Core.Entities.Enums
 {
     public enum OperationalStateStatus
     {

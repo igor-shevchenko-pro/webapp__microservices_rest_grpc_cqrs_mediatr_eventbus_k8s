@@ -1,4 +1,4 @@
-﻿using DistributionCenter.Core.Entities.Base;
+﻿using DistributionCenter.Core.Entities.Enums;
 using System;
 
 namespace DistributionCenter.Core.Interfaces.Resources.Base

@@ -14,8 +14,8 @@ namespace CommandCenter.Core
 
         public static class SwaggerConfigurations
         {
-            public const string TITLE = "DistributionCenter API";
-            public const string DESCRIPTION = "This is a Web API for DistributionCenter operations.";
+            public const string TITLE = "CommandCenter API";
+            public const string DESCRIPTION = "This is a Web API for CommandCenter operations.";
             public const string TERMS_OF_SERVICE_URL = "https://www.linkedin.com/in/igor-shevchenko-pro/";
             public const string LICENSE_NAME = "MIT";
             public const string CONTACT_NAME = "Igor Shevchenko";

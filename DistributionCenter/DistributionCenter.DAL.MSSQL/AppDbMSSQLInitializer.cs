@@ -3,9 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DistributionCenter.Core.Entities;
 using DistributionCenter.Core.Helpers.EntityDbInitializeHelpers.Base;
-using DistributionCenter.Core.Interfaces.Repositories.Base;
 using System;
 using System.Linq;
+using DistributionCenter.Core.Interfaces.Entities;
+using DistributionCenter.Core.Interfaces.Entities.Base;
 
 namespace DistributionCenter.DAL.MSSQL
 {

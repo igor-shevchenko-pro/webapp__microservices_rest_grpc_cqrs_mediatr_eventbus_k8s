@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DistributionCenter.Core.Extensions;
+using DistributionCenter.Core.Interfaces.Entities.Base;
 
 namespace DistributionCenter.BLL.Services.Base
 {

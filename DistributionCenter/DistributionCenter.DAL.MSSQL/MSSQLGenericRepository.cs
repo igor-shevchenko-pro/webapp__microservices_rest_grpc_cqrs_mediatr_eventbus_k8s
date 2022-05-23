@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using DistributionCenter.Core.Interfaces.Entities.Base;
 
 namespace DistributionCenter.DAL.MSSQL
 {

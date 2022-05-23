@@ -5,22 +5,22 @@ using System.Text.Json.Serialization;
 
 namespace CommandCenter.Core.Resources
 {
-    public abstract class PlatformBaseResource : BaseResource
+    public abstract class FrameworkBaseResource : BaseResource
     {
         [JsonPropertyName("name")]
         [Required(AllowEmptyStrings = false)]
         public virtual string Name { get; set; } = string.Empty;
 
-        [JsonPropertyName("publisher")]
+        [JsonPropertyName("version")]
         [Required(AllowEmptyStrings = false)]
-        public virtual string Publisher { get; set; } = string.Empty;
+        public virtual string Version { get; set; } = string.Empty;
 
-        [JsonPropertyName("cost")]
+        [JsonPropertyName("releaseDate")]
         [Required(AllowEmptyStrings = false)]
-        public virtual string Cost { get; set; } = string.Empty;
+        public virtual DateTime ReleaseDate { get; set; }
     }
 
-    public class PlatformCreateResource : PlatformBaseResource
+    public class FrameworkCreateResource : FrameworkBaseResource
     {
         [JsonIgnore]
         public override string? Id => base.Id;
@@ -32,7 +32,7 @@ namespace CommandCenter.Core.Resources
         public override DateTime? Updated => base.Updated;
     }
 
-    public class PlatformGetResource : PlatformBaseResource
+    public class FrameworkGetResource : FrameworkBaseResource
     {
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DistributionCenter.Core.Interfaces.Repositories.Base
+﻿namespace DistributionCenter.Core.Interfaces.Entities.Base
 {
     public interface IIdentifiable
     {

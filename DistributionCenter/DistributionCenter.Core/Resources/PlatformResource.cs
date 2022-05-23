@@ -15,7 +15,7 @@ namespace DistributionCenter.Core.Resources
         [Required(AllowEmptyStrings = false)]
         public virtual string Version { get; set; } = string.Empty;
 
-        [JsonPropertyName("file_size")]
+        [JsonPropertyName("fileSize")]
         [Required(AllowEmptyStrings = false)]
         public virtual double FileSize { get; set; }
     }

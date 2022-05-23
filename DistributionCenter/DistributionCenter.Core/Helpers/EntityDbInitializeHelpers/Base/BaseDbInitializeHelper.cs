@@ -1,5 +1,5 @@
 ﻿using DistributionCenter.Core.Entities;
-using DistributionCenter.Core.Interfaces.Repositories.Base;
+using DistributionCenter.Core.Interfaces.Entities.Base;
 using System.Collections.Generic;
 
 namespace DistributionCenter.Core.Helpers.EntityDbInitializeHelpers.Base

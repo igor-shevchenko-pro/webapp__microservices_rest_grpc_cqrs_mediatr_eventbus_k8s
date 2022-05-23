@@ -1,4 +1,5 @@
-﻿using DistributionCenter.Core.Interfaces.Repositories.Base;
+﻿using DistributionCenter.Core.Interfaces.Entities.Base;
+using DistributionCenter.Core.Interfaces.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

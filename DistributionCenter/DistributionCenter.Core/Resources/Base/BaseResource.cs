@@ -1,4 +1,4 @@
-﻿using DistributionCenter.Core.Entities.Base;
+﻿using DistributionCenter.Core.Entities.Enums;
 using DistributionCenter.Core.Interfaces.Resources.Base;
 using System;
 using System.Text.Json.Serialization;

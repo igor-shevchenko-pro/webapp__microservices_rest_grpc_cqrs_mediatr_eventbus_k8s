@@ -1,4 +1,4 @@
-﻿using DistributionCenter.Core.Interfaces.Repositories.Base;
+﻿using DistributionCenter.Core.Interfaces.Entities.Base;
 using DistributionCenter.Core.Interfaces.Resources.Base;
 using System.Collections.Generic;
 using System.Threading.Tasks;

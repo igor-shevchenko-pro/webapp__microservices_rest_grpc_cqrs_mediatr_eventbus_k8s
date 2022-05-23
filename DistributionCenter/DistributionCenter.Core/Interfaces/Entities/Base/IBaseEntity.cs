@@ -1,7 +1,7 @@
-﻿using DistributionCenter.Core.Entities.Base;
+﻿using DistributionCenter.Core.Entities.Enums;
 using System;
 
-namespace DistributionCenter.Core.Interfaces.Repositories.Base
+namespace DistributionCenter.Core.Interfaces.Entities.Base
 {
     public interface IBaseEntity : IIdentifiable
     {

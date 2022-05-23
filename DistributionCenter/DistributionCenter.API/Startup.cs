@@ -29,6 +29,7 @@ using Serilog;
 using DistributionCenter.API.Configurations.Serilog;
 using DistributionCenter.Core.Interfaces.DataProviders;
 using DistributionCenter.DataProviders.Http;
+using DistributionCenter.Core.Interfaces.Entities;
 
 namespace DistributionCenter.API
 {
