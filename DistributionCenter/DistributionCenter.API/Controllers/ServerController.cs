@@ -4,7 +4,6 @@ using DistributionCenter.Core.Interfaces.Services;
 using DistributionCenter.Core.Resources.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,12 +18,14 @@ namespace DistributionCenter.API.Controllers
     public class ServerController : BaseApiController
     {
         private readonly IServerService _serverService;
-        ILogger<ServerController> _logger;
 
-        public ServerController(IServerService serverService, ILogger<ServerController> logger)
+        /// <summary>
+        /// Constructor of ServerController
+        /// </summary>
+        /// <param name="serverService"></param>
+        public ServerController(IServerService serverService)
         {
             _serverService = serverService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -151,7 +152,7 @@ namespace DistributionCenter.API.Controllers
         ///     
         /// </remarks>
         /// <response code="200">Returns a list with the available resources</response>
-        /// <response code="400">The request could not be understood by server</response>
+        /// <response code="400">The request could not be understood by the server</response>
         /// <response code="500">An internal server error occurred</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ServerGetResource>), StatusCodes.Status200OK)]

@@ -16,6 +16,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Options;
+using CommandCenter.Core.Repositories.Base;
+using CommandCenter.Core.Repositories;
+using CommandCenter.DAL.Repositories;
 
 namespace CommandCenter.API
 {
@@ -32,6 +37,13 @@ namespace CommandCenter.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSingleton<IAppDbInitializer, AppDbMSSQLInitializer>();
+            //services.AddSingleton(DataMapperProfile.GetMapper());
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            //services.AddScoped<IDataMapper, DataMapper>();
+            //services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(PostgreSQLGenericRepository<>));
+            services.AddScoped<IFrameworkRepository, FrameworkRepository>();
+
             services.AddControllers(options =>
             {
                 options.SuppressAsyncSuffixInActionNames = false;

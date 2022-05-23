@@ -25,6 +25,11 @@ namespace DistributionCenter.API.Controllers
 
         private readonly IPlatformHttpDataProvider _platformSyncDataProvider;
 
+        /// <summary>
+        /// Constructor of PlatformController
+        /// </summary>
+        /// <param name="platformService"></param>
+        /// <param name="platformSyncDataProvider"></param>
         public PlatformController(IPlatformService platformService, IPlatformHttpDataProvider platformSyncDataProvider)
         {
             _platformService = platformService;
@@ -160,7 +165,7 @@ namespace DistributionCenter.API.Controllers
         ///     
         /// </remarks>
         /// <response code="200">Returns a list with the available resources</response>
-        /// <response code="400">The request could not be understood by server</response>
+        /// <response code="400">The request could not be understood by the server</response>
         /// <response code="500">An internal server error occurred</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PlatformGetResource>), StatusCodes.Status200OK)]
