@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CommandCenter.Core.Repositories.Base
+namespace CommandCenter.Core.Interfaces.Repositories.Base
 {
     public interface IDbProviderGenericRepository<T>
         where T : class, IBaseEntity

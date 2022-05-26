@@ -49,7 +49,7 @@ namespace DistributionCenter.API
             if (_env.IsProduction())
             {
                 services.AddDbContext<AppDbMSSQLContext>(option =>
-                    option.UseSqlServer(Configuration.GetConnectionString("PlatformConnectionString")));
+                    option.UseSqlServer(Configuration.GetConnectionString("MSSQLConnectionString")));
                 Log.Information("Storage: Using MSSQLServer Db");
             }
             else
@@ -58,18 +58,6 @@ namespace DistributionCenter.API
                      option.UseInMemoryDatabase("InMemoryDb"));
                 Log.Information($"Storage: Using InMemory Db");
             }
-
-            services.AddSingleton<IAppDbInitializer, AppDbMSSQLInitializer>();
-            services.AddSingleton(DataMapperProfile.GetMapper());
-            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddScoped<IDataMapper, DataMapper>();
-            services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(MSSQLGenericRepository<>));
-            services.AddScoped<IPlatformRepository, PlatformRepository>();
-            services.AddScoped<IServerRepository, ServerRepository>();
-            services.AddScoped<IPlatformService, PlatformService>();
-            services.AddScoped<IServerService, ServerService>();
-
-            services.AddHttpClient<IPlatformHttpDataProvider, PlatformHttpDataProvider>();
 
             //services.AddSingleton<IMessageBusClient, MessageBusClient>();
             //services.AddGrpc();
@@ -105,6 +93,19 @@ namespace DistributionCenter.API
                 options.IncludeXmlComments(xmlPath);
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSingleton<IAppDbInitializer, AppDbMSSQLInitializer>();
+            services.AddSingleton(DataMapperProfile.GetMapper());
+            services.AddScoped<IDataMapper, DataMapper>();
+
+            services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(MSSQLGenericRepository<>));
+            services.AddScoped<IPlatformRepository, PlatformRepository>();
+            services.AddScoped<IServerRepository, ServerRepository>();
+            services.AddScoped<IPlatformService, PlatformService>();
+            services.AddScoped<IServerService, ServerService>();
+
+            services.AddHttpClient<IPlatformHttpDataProvider, PlatformHttpDataProvider>();
         }
 
 

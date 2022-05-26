@@ -1,5 +1,5 @@
 ﻿using CommandCenter.API.Controllers.Base;
-using CommandCenter.BLL.Services.CQRS.Framework.Queries;
+using CommandCenter.BLL.CQRS.FrameworkQueries;
 using CommandCenter.Core.Resources;
 using CommandCenter.Core.Resources.Base;
 using MediatR;
@@ -49,7 +49,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
         {
-            var models = await _mediator.Send(new GetFrameworksQuery());
+            var models = await _mediator.Send(new GetAllFrameworksQuery());
             return Ok(models);
         }
     }

@@ -1,5 +1,5 @@
 ﻿using CommandCenter.Core.Interfaces.Entities.Base;
-using CommandCenter.Core.Repositories.Base;
+using CommandCenter.Core.Interfaces.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

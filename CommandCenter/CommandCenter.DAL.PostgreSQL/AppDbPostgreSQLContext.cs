@@ -9,6 +9,7 @@ namespace CommandCenter.DAL.PostgreSQL
             : base(option)
         { }
 
-        public DbSet<Framework> Platforms => Set<Framework>();
+        public DbSet<Framework> Frameworks => Set<Framework>();
+        public DbSet<Protocol> Protocols => Set<Protocol>();
     }
 }

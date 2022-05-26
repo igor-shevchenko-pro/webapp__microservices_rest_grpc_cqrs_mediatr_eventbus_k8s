@@ -1,7 +1,7 @@
 ﻿using CommandCenter.Core.Entities;
-using CommandCenter.Core.Repositories.Base;
+using CommandCenter.Core.Interfaces.Repositories.Base;
 
-namespace CommandCenter.Core.Repositories
+namespace CommandCenter.Core.Interfaces.Repositories
 {
     public interface IFrameworkRepository : IBaseRepository<Framework>
     {
