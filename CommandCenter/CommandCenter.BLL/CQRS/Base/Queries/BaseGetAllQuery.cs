@@ -3,7 +3,7 @@ using CommandCenter.Core.Interfaces.Resources.Base;
 
 namespace CommandCenter.BLL.CQRS.Base.Queries
 {
-    public abstract class GetAllResourcesBaseQuery<TModelGet> : IGetAllResourcesBaseQuery<TModelGet>
+    public abstract class BaseGetAllQuery<TModelGet> : IBaseGetAllQuery<TModelGet>
         where TModelGet : class, IBaseResource
     {
     }

@@ -3,7 +3,7 @@ using CommandCenter.Core.Resources;
 
 namespace CommandCenter.Core.Interfaces.CQRS.Queries.FrameworkQueries
 {
-    public interface IGetAllFrameworksQuery : IGetAllResourcesBaseQuery<FrameworkGetResource>
+    public interface IGetAllFrameworksQuery : IBaseGetAllQuery<FrameworkGetResource>
     {
     }
 }

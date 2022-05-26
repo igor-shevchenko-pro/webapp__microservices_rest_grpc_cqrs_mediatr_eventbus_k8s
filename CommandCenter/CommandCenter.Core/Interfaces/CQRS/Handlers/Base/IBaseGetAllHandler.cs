@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CommandCenter.Core.Interfaces.CQRS.Handlers.Base
 {
-    public interface IGetAllResourcesBaseHandler<TEntity, TModelGet> : IRequestHandler<IGetAllResourcesBaseQuery<TModelGet>, IEnumerable<TModelGet>>
+    public interface IBaseGetAllHandler<TEntity, TModelGet> : IRequestHandler<IBaseGetAllQuery<TModelGet>, IEnumerable<TModelGet>>
         where TEntity : class, IBaseEntity, new()
         where TModelGet : class, IBaseResource
     {

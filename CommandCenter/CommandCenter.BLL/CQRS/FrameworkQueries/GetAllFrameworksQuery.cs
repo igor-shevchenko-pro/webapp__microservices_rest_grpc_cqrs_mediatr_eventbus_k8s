@@ -4,7 +4,7 @@ using CommandCenter.Core.Resources;
 
 namespace CommandCenter.BLL.CQRS.FrameworkQueries
 {
-    public class GetAllFrameworksQuery : GetAllResourcesBaseQuery<FrameworkGetResource>, IGetAllFrameworksQuery
+    public class GetAllFrameworksQuery : BaseGetAllQuery<FrameworkGetResource>, IGetAllFrameworksQuery
     {
     }
 }

@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace CommandCenter.BLL.CQRS.Base.Handlers
 {
-    public abstract class GetAllResourcesBaseHandler<TEntity, TModelGet> : IGetAllResourcesBaseHandler<TEntity, TModelGet>
+    public abstract class BaseGetAllHandler<TEntity, TModelGet> : IBaseGetAllHandler<TEntity, TModelGet>
         where TEntity : class, IBaseEntity, new()
         where TModelGet : class, IBaseResource
     {
         protected readonly IBaseRepository<TEntity> _repository;
         protected readonly IDataMapper _dataMapper;
-        protected readonly ILogger<GetAllResourcesBaseHandler<TEntity, TModelGet>> _logger;
+        protected readonly ILogger<BaseGetAllHandler<TEntity, TModelGet>> _logger;
 
-        public GetAllResourcesBaseHandler(IBaseRepository<TEntity> repository, IDataMapper dataMapper, ILogger<GetAllResourcesBaseHandler<TEntity, TModelGet>> logger)
+        public BaseGetAllHandler(IBaseRepository<TEntity> repository, IDataMapper dataMapper, ILogger<BaseGetAllHandler<TEntity, TModelGet>> logger)
         {
             _repository = repository;
             _dataMapper = dataMapper;
             _logger = logger;
         }
 
-        public virtual async Task<IEnumerable<TModelGet>> Handle(IGetAllResourcesBaseQuery<TModelGet> request, CancellationToken cancellationToken)
+        public virtual async Task<IEnumerable<TModelGet>> Handle(IBaseGetAllQuery<TModelGet> request, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Trying to fetch {typeof(TEntity)} from a datastore ...");
 
