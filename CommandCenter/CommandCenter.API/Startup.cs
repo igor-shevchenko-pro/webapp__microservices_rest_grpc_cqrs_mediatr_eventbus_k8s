@@ -18,25 +18,13 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.Extensions.Options;
-using CommandCenter.Core.Interfaces.Repositories.Base;
-using CommandCenter.Core.Repositories;
-using CommandCenter.DAL.Repositories;
 using CommandCenter.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using CommandCenter.Core.Interfaces.Entities;
-using CommandCenter.Core.Interfaces.Repositories;
 using MediatR;
 using CommandCenter.Core.Interfaces.Profiles.MapperProfiles;
 using CommandCenter.Core.Profiles.MapperProfiles.DataMapper;
-using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
-using CommandCenter.BLL.CQRS.FrameworkQueries;
-using CommandCenter.Core.Interfaces.CQRS.Queries.FrameworkQueries;
-using CommandCenter.Core.Resources;
-using System.Collections.Generic;
-using CommandCenter.BLL.CQRS.FrameworkHandlers;
-using CommandCenter.Core.Extensions;
-using CommandCenter.Core.Interfaces.CQRS.Queries.Base;
-using CommandCenter.Core.Interfaces.CQRS.Handlers.Base;
+using CommandCenter.API.Configurations;
 
 namespace CommandCenter.API
 {
@@ -98,22 +86,12 @@ namespace CommandCenter.API
                 options.IncludeXmlComments(xmlPath);
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSignalR();
             services.AddMediatR(typeof(Startup));
+            services.AddSignalR();
 
-            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSingleton<IAppDbInitializer, AppDbPostgreSQLInitializer>();
-            services.AddSingleton(DataMapperProfile.GetMapper());
-            services.AddScoped<IDataMapper, DataMapper>();
-
-            services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(PostgreSQLGenericRepository<>));
-            services.AddScoped<IFrameworkRepository, FrameworkRepository>();
-            services.AddScoped<IProtocolRepository, ProtocolRepository>();
-
-            services.AddScoped<IGetAllFrameworksQuery, GetAllFrameworksQuery>();
-            services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
-
-            services.AddScoped<IRequestHandler<GetAllFrameworksQuery, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
+            // DI
+            DependencyInjectionConfigurationBase register = new DependencyInjectionConfigurationBase(Configuration);
+            register.RegisterAll(ref services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
@@ -174,6 +152,26 @@ namespace CommandCenter.API
 
                 dbInitializer?.SeedData();
             }
+        }
+    }
+
+    /// <summary>
+    /// Mechanism of DependencyInjection registration moved from Startup to this class 
+    /// It allows to have more complexity and flexibility operating with DI registration
+    /// </summary>
+    internal class DependencyInjectionConfigurationBase : DependencyInjectionConfiguration
+    {
+        public DependencyInjectionConfigurationBase(IConfiguration configuration) 
+            : base(configuration)
+        {
+        }
+
+        public override void RegisterConfigs(ref IServiceCollection services)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSingleton<IAppDbInitializer, AppDbPostgreSQLInitializer>();
+            services.AddSingleton(DataMapperProfile.GetMapper());
+            services.AddScoped<IDataMapper, DataMapper>();
         }
     }
 }

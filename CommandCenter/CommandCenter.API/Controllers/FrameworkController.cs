@@ -2,7 +2,6 @@
 using CommandCenter.BLL.CQRS.FrameworkQueries;
 using CommandCenter.Core.Resources;
 using CommandCenter.Core.Resources.Base;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -19,17 +18,6 @@ namespace CommandCenter.API.Controllers
     [Route("api/[controller]")]
     public class FrameworkController : BaseApiController
     {
-        private readonly IMediator _mediator;
-
-        /// <summary>
-        /// Constructor of FrameworkController
-        /// </summary>
-        /// <param name="mediator"></param>
-        public FrameworkController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         /// <summary>
         /// Get a list with all available "<see cref="T:Framework"/>" resources
         /// </summary>
@@ -49,7 +37,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
         {
-            var models = await _mediator.Send(new GetAllFrameworksQuery());
+            var models = await Mediator.Send(new GetAllFrameworksQuery());
             return Ok(models);
         }
     }
