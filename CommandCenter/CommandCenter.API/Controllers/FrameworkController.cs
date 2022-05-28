@@ -1,4 +1,5 @@
 ﻿using CommandCenter.API.Controllers.Base;
+using CommandCenter.BLL.CQRS.Commands.Base;
 using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.Core.Resources;
 using CommandCenter.Core.Resources.Base;
@@ -43,7 +44,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateAsync([FromBody] FrameworkCreateResource resource)
         {
-            var id = await Mediator.Send(resource);
+            var id = await Mediator.Send(new BaseCreateCommand<FrameworkCreateResource>(resource));
             return CreatedAtAction(nameof(GetAsync), new { Id = id }, resource);
         }
 

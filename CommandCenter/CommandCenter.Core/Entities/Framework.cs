@@ -1,5 +1,4 @@
 ﻿using CommandCenter.Core.Entities.Base;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CommandCenter.Core.Entities
@@ -13,6 +12,6 @@ namespace CommandCenter.Core.Entities
         public string Version { get; set; } = string.Empty;
 
         [Required]
-        public DateTime ReleaseDate { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

@@ -15,9 +15,9 @@ namespace CommandCenter.Core.Resources
         [Required(AllowEmptyStrings = false)]
         public virtual string Version { get; set; } = string.Empty;
 
-        [JsonPropertyName("releaseDate")]
+        [JsonPropertyName("description")]
         [Required(AllowEmptyStrings = false)]
-        public virtual DateTime ReleaseDate { get; set; }
+        public virtual string Description { get; set; } = string.Empty;
     }
 
     public class FrameworkCreateResource : FrameworkBaseResource

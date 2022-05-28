@@ -28,12 +28,12 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
 
         public virtual async Task<IEnumerable<TModelGet>> Handle(IBaseGetAllQuery<TModelGet> request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Trying to fetch {typeof(TEntity)} from a datastore ...");
+            _logger.LogInformation($"Trying to fetch List of {typeof(TEntity)} from a datastore ...");
 
             var entities = await _repository.GetAllAsync();
             var models = _dataMapper.MapCollection<TEntity, TModelGet>(entities);
 
-            _logger.LogInformation($"{typeof(TModelGet)} were received successfully.");
+            _logger.LogInformation($"List of {typeof(TModelGet)} were received successfully.");
 
             return models;
         }

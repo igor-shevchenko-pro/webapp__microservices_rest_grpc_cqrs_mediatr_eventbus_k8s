@@ -1,4 +1,5 @@
-﻿using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
+﻿using CommandCenter.BLL.CQRS.Commands.Base;
+using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.Repositories;
@@ -42,16 +43,17 @@ namespace CommandCenter.API.Configurations
 
         public virtual void RegisterCQRS(ref IServiceCollection services)
         {
-            // Handler
+            // Handlers
             services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
+            services.AddScoped<ICreateFrameworkHandler, CreateFrameworkHandler>();
 
             // Query => Handler
             services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
             services.AddScoped<IRequestHandler<BaseGetByIdQuery<FrameworkGetResource>, FrameworkGetResource>, GetByIdFrameworkHandler>();
 
             //Command => Handler
-
+            services.AddScoped<IRequestHandler<BaseCreateCommand<FrameworkCreateResource>, string>, CreateFrameworkHandler>();
         }
     }
 }
