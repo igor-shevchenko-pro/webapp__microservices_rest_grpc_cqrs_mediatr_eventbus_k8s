@@ -1,5 +1,5 @@
 ﻿using CommandCenter.API.Controllers.Base;
-using CommandCenter.BLL.CQRS.FrameworkQueries;
+using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.Core.Resources;
 using CommandCenter.Core.Resources.Base;
 using Microsoft.AspNetCore.Http;
@@ -69,7 +69,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync(string id)
         {
-            var model = await Mediator.Send(new GetByIdFrameworkQuery(id));
+            var model = await Mediator.Send(new BaseGetByIdQuery<FrameworkGetResource>(id));
             return Ok(model);
         }
 
@@ -92,7 +92,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
         {
-            var models = await Mediator.Send(new GetAllFrameworksQuery());
+            var models = await Mediator.Send(new BaseGetAllQuery<FrameworkGetResource>());
             return Ok(models);
         }
     }

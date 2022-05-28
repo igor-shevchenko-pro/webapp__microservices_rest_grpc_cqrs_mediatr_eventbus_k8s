@@ -1,7 +1,6 @@
-﻿using CommandCenter.BLL.CQRS.FrameworkHandlers;
-using CommandCenter.BLL.CQRS.FrameworkQueries;
+﻿using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
+using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
-using CommandCenter.Core.Interfaces.CQRS.Queries.FrameworkQueries;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Repositories;
@@ -30,7 +29,6 @@ namespace CommandCenter.API.Configurations
         {
             RegisterConfigs(ref services);
             RegisterRepositories(ref services);
-            RegisterServices(ref services);
             RegisterCQRS(ref services);
         }
 
@@ -42,23 +40,15 @@ namespace CommandCenter.API.Configurations
             services.AddScoped<IProtocolRepository, ProtocolRepository>();
         }
 
-        public virtual void RegisterServices(ref IServiceCollection services)
-        {
-        }
-
         public virtual void RegisterCQRS(ref IServiceCollection services)
         {
-            // Queries
-            services.AddScoped<IGetAllFrameworksQuery, GetAllFrameworksQuery>();
-            services.AddScoped<IGetByIdFrameworkQuery>(_ => new GetByIdFrameworkQuery(default(string)));
-
-            // Commands
+            // Handler
             services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
 
             // Query => Handler
-            services.AddScoped<IRequestHandler<GetAllFrameworksQuery, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
-            services.AddScoped<IRequestHandler<GetByIdFrameworkQuery, FrameworkGetResource>, GetByIdFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
+            services.AddScoped<IRequestHandler<BaseGetByIdQuery<FrameworkGetResource>, FrameworkGetResource>, GetByIdFrameworkHandler>();
 
             //Command => Handler
 

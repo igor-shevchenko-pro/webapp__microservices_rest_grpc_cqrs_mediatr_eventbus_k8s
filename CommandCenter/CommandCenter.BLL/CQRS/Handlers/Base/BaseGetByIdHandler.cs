@@ -10,7 +10,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CommandCenter.BLL.CQRS.Base.Handlers
+namespace CommandCenter.BLL.CQRS.Handlers.Base
 {
     public abstract class BaseGetByIdHandler<TEntity, TModelGet> : IBaseGetByIdHandler<TEntity, TModelGet>
         where TEntity : class, IBaseEntity, new()
