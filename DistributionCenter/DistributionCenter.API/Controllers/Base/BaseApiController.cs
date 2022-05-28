@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DistributionCenter.Core.Interfaces.Services.Base;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DistributionCenter.API.Controllers.Base
 {

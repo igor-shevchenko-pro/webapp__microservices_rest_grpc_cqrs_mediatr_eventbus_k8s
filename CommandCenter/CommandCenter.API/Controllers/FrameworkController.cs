@@ -13,11 +13,40 @@ namespace CommandCenter.API.Controllers
     /// Controller used for handling "<see cref="T:Framework"/>" resources
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0", Deprecated = true)]
-    [ApiVersion("1.1")]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     public class FrameworkController : BaseApiController
     {
+        /// <summary>
+        /// Create a new "<see cref="T:Framework"/>" resource
+        /// </summary>
+        /// <remarks>
+        /// Sample of request:
+        /// The API request should be called with parameter "Resource" from the body
+        /// 
+        ///    POST /api/framework
+        ///    {
+        ///        "operationalStateStatus": "Active",
+        ///        "name": "string",
+        ///        "version": "string",
+        ///        "releaseDate": "dateTime"
+        ///    }
+        /// 
+        /// </remarks>
+        /// <param name="resource">The "<see cref="T:Framework"/>" resource to create</param>
+        /// <response code="201">The new resource was created successfully</response>
+        /// <response code="400">The request could not be understood by server</response>
+        /// <response code="500">An internal server error occurred</response>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateAsync([FromBody] FrameworkCreateResource resource)
+        {
+            var id = await Mediator.Send(resource);
+            return CreatedAtAction(nameof(GetAsync), new { Id = id }, resource);
+        }
+
         /// <summary>
         /// Retrieve the "<see cref="T:Framework"/>" resource by Id
         /// </summary>

@@ -47,8 +47,8 @@ namespace DistributionCenter.API.Controllers
         ///    {
         ///        "operationalStateStatus": "Active",
         ///        "name": "string",
-        ///        "publisher": "string",
-        ///        "cost": "string"
+        ///        "version": "string",
+        ///        "fileSize": "double"
         ///    }
         /// 
         /// </remarks>
@@ -77,8 +77,8 @@ namespace DistributionCenter.API.Controllers
         ///    {
         ///        "operationalStateStatus": "Active",
         ///        "name": "string",
-        ///        "publisher": "string",
-        ///        "cost": "string"
+        ///        "version": "string",
+        ///        "fileSize": "double"
         ///    }
         /// 
         /// </remarks>
