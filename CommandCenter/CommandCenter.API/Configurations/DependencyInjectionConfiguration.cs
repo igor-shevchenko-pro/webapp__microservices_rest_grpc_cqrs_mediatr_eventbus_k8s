@@ -17,7 +17,7 @@ namespace CommandCenter.API.Configurations
 {
     public abstract class DependencyInjectionConfiguration
     {
-        protected IConfiguration Configuration;
+        protected readonly IConfiguration Configuration;
 
         public DependencyInjectionConfiguration(IConfiguration configuration)
         {
@@ -37,7 +37,7 @@ namespace CommandCenter.API.Configurations
         // Repositories
         public virtual void RegisterRepositories(ref IServiceCollection services)
         {
-            services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(PostgreSQLGenericRepository<>));
+            services.AddScoped(typeof(IDbProviderRepository<>), typeof(PostgreSQLRepository<>));
             services.AddScoped<IFrameworkRepository, FrameworkRepository>();
             services.AddScoped<IProtocolRepository, ProtocolRepository>();
         }

@@ -7,7 +7,7 @@ namespace CommandCenter.DAL.Repositories
 {
     public class ProtocolRepository : BaseRepository<Protocol>, IProtocolRepository
     {
-        public ProtocolRepository(IDbProviderGenericRepository<Protocol> repository)
+        public ProtocolRepository(IDbProviderRepository<Protocol> repository)
             : base(repository)
         {
         }

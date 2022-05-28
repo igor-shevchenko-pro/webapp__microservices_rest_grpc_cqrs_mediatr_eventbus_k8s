@@ -10,9 +10,9 @@ namespace CommandCenter.DAL.Repositories.Base
     public abstract class BaseRepository<T> : IBaseRepository<T>
         where T : class, IBaseEntity
     {
-        protected readonly IDbProviderGenericRepository<T> _repository;
+        protected readonly IDbProviderRepository<T> _repository;
 
-        public BaseRepository(IDbProviderGenericRepository<T> repository)
+        public BaseRepository(IDbProviderRepository<T> repository)
         {
             _repository = repository;
         }

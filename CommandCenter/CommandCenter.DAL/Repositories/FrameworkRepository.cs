@@ -7,7 +7,7 @@ namespace CommandCenter.DAL.Repositories
 {
     public class FrameworkRepository : BaseRepository<Framework>, IFrameworkRepository
     {
-        public FrameworkRepository(IDbProviderGenericRepository<Framework> repository)
+        public FrameworkRepository(IDbProviderRepository<Framework> repository)
             : base(repository)
         {
         }

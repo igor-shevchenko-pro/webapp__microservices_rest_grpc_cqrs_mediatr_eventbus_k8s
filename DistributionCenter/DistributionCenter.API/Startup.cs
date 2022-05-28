@@ -5,14 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DistributionCenter.API.Middlewares;
-using DistributionCenter.BLL.Services;
 using DistributionCenter.Core.Interfaces.Profiles.MapperProfiles;
-using DistributionCenter.Core.Interfaces.Repositories;
-using DistributionCenter.Core.Interfaces.Repositories.Base;
-using DistributionCenter.Core.Interfaces.Services;
 using DistributionCenter.Core.Profiles.MapperProfiles;
 using DistributionCenter.DAL.MSSQL;
-using DistributionCenter.DAL.Repositories;
 using System;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +22,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 using Serilog;
 using DistributionCenter.API.Configurations.Serilog;
-using DistributionCenter.Core.Interfaces.DataProviders;
-using DistributionCenter.DataProviders.Http;
 using DistributionCenter.Core.Interfaces.Entities;
+using DistributionCenter.API.Configurations;
 
 namespace DistributionCenter.API
 {
@@ -94,18 +88,9 @@ namespace DistributionCenter.API
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSingleton<IAppDbInitializer, AppDbMSSQLInitializer>();
-            services.AddSingleton(DataMapperProfile.GetMapper());
-            services.AddScoped<IDataMapper, DataMapper>();
-
-            services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(MSSQLGenericRepository<>));
-            services.AddScoped<IPlatformRepository, PlatformRepository>();
-            services.AddScoped<IServerRepository, ServerRepository>();
-            services.AddScoped<IPlatformService, PlatformService>();
-            services.AddScoped<IServerService, ServerService>();
-
-            services.AddHttpClient<IPlatformHttpDataProvider, PlatformHttpDataProvider>();
+            // DI
+            DependencyInjectionConfigurationBase register = new DependencyInjectionConfigurationBase(Configuration);
+            register.RegisterAll(ref services);
         }
 
 
@@ -168,6 +153,26 @@ namespace DistributionCenter.API
 
                 dbInitializer?.SeedData();
             }
+        }
+    }
+
+    /// <summary>
+    /// Mechanism of DependencyInjection registration moved from Startup to this class 
+    /// It allows to have more complexity and flexibility operating with DI registration
+    /// </summary>
+    internal class DependencyInjectionConfigurationBase : DependencyInjectionConfiguration
+    {
+        public DependencyInjectionConfigurationBase(IConfiguration configuration)
+            : base(configuration)
+        {
+        }
+
+        public override void RegisterConfigs(ref IServiceCollection services)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSingleton<IAppDbInitializer, AppDbMSSQLInitializer>();
+            services.AddSingleton(DataMapperProfile.GetMapper());
+            services.AddScoped<IDataMapper, DataMapper>();
         }
     }
 }

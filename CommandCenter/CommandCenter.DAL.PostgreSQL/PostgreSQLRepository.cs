@@ -1,21 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DistributionCenter.Core.Interfaces.Repositories.Base;
+﻿using CommandCenter.Core.Interfaces.Entities.Base;
+using CommandCenter.Core.Interfaces.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using DistributionCenter.Core.Interfaces.Entities.Base;
 
-namespace DistributionCenter.DAL.MSSQL
+namespace CommandCenter.DAL.PostgreSQL
 {
-    public sealed class MSSQLGenericRepository<T> : IDbProviderGenericRepository<T>
+    public sealed class PostgreSQLRepository<T> : IDbProviderRepository<T>
         where T : class, IBaseEntity
     {
-        private readonly AppDbMSSQLContext _appDbContext;
+        private readonly AppDbPostgreSQLContext _appDbContext;
         private DbSet<T> _entities { get; set; }
 
-        public MSSQLGenericRepository(AppDbMSSQLContext appDbContext)
+        public PostgreSQLRepository(AppDbPostgreSQLContext appDbContext)
         {
             _appDbContext = appDbContext;
             _entities = _appDbContext.Set<T>();

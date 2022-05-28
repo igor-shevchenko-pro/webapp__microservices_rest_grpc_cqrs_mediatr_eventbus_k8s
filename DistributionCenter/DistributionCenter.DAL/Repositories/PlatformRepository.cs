@@ -7,7 +7,7 @@ namespace DistributionCenter.DAL.Repositories
 {
     public class PlatformRepository : BaseRepository<Platform>, IPlatformRepository
     {
-        public PlatformRepository(IDbProviderGenericRepository<Platform> repository)
+        public PlatformRepository(IDbProviderRepository<Platform> repository)
             : base(repository)
         {
         }

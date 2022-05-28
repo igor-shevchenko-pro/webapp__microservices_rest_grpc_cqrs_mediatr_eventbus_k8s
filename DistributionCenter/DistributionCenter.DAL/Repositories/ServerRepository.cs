@@ -7,7 +7,7 @@ namespace DistributionCenter.DAL.Repositories
 {
     public class ServerRepository : BaseRepository<Server>, IServerRepository
     {
-        public ServerRepository(IDbProviderGenericRepository<Server> repository)
+        public ServerRepository(IDbProviderRepository<Server> repository)
             : base(repository)
         {
         }

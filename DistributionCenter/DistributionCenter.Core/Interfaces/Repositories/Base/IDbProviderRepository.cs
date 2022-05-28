@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DistributionCenter.Core.Interfaces.Repositories.Base
 {
-    public interface IDbProviderGenericRepository<T>
+    public interface IDbProviderRepository<T>
         where T : class, IBaseEntity
     {
         Task<string> CreateAsync(T entity);
