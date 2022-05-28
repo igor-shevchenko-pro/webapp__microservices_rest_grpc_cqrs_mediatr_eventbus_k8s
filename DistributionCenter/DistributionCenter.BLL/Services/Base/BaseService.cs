@@ -41,7 +41,7 @@ namespace DistributionCenter.BLL.Services.Base
             if (entity == null)
             {
                 throw new NotFoundException("NotFoundException occurred while updating the entity",
-                    new ArgumentException($"Could not find resource with ID: {id}.", nameof(id)));
+                    new ArgumentException($"Could not find entity with ID: {id}.", nameof(id)));
             }
 
             entity.CopyPropertiesFrom(model);
@@ -54,7 +54,7 @@ namespace DistributionCenter.BLL.Services.Base
             if(entity == null)
             {
                 throw new NotFoundException("NotFoundException occurred while removing the entity",
-                    new ArgumentException($"Could not find resource with ID: {id}.", nameof(id)));
+                    new ArgumentException($"Could not find entity with ID: {id}.", nameof(id)));
             }
 
             await _repository.RemoveAsync(entity);
@@ -66,7 +66,7 @@ namespace DistributionCenter.BLL.Services.Base
             if (entity == null)
             {
                 throw new NotFoundException("NotFoundException occurred while getting the entity",
-                    new ArgumentException($"Could not find resource with ID: {id}.", nameof(id)));
+                    new ArgumentException($"Could not find entity with ID: {id}.", nameof(id)));
             }
 
             var model = _dataMapper.Map<TEntity, TModelGet>(entity);

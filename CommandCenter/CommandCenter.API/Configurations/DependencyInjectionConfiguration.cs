@@ -34,6 +34,7 @@ namespace CommandCenter.API.Configurations
             RegisterCQRS(ref services);
         }
 
+        // Repositories
         public virtual void RegisterRepositories(ref IServiceCollection services)
         {
             services.AddScoped(typeof(IDbProviderGenericRepository<>), typeof(PostgreSQLGenericRepository<>));
@@ -47,10 +48,20 @@ namespace CommandCenter.API.Configurations
 
         public virtual void RegisterCQRS(ref IServiceCollection services)
         {
+            // Queries
             services.AddScoped<IGetAllFrameworksQuery, GetAllFrameworksQuery>();
-            services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
+            services.AddScoped<IGetByIdFrameworkQuery>(_ => new GetByIdFrameworkQuery(default(string)));
 
+            // Commands
+            services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
+            services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
+
+            // Query => Handler
             services.AddScoped<IRequestHandler<GetAllFrameworksQuery, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
+            services.AddScoped<IRequestHandler<GetByIdFrameworkQuery, FrameworkGetResource>, GetByIdFrameworkHandler>();
+
+            //Command => Handler
+
         }
     }
 }
