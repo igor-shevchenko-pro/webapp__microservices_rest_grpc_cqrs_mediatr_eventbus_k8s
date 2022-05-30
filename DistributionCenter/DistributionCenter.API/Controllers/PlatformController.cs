@@ -84,7 +84,7 @@ namespace DistributionCenter.API.Controllers
         /// </remarks>
         /// <param name="id">The Id of the "<see cref="T:Platform"/>" resource to update</param>
         /// <param name="resource">The "<see cref="T:Platform"/>" resource to update</param>
-        /// <response code="204">The requested resource was deleted successfully</response>
+        /// <response code="204">The requested resource was updated successfully</response>
         /// <response code="400">The request could not be understood by server</response>
         /// <response code="404">Requested resource is not found</response>
         /// <response code="500">An internal server error occurred</response>
@@ -110,7 +110,7 @@ namespace DistributionCenter.API.Controllers
         /// 
         /// </remarks>
         /// <param name="id">The Id of the "<see cref="T:Platform"/>" resource to delete</param>
-        /// <response code="204">The requested resource was deleted successfully</response>
+        /// <response code="204">The requested resource was removed successfully</response>
         /// <response code="400">The request could not be understood by server</response>
         /// <response code="404">Requested resource is not found</response>
         /// <response code="500">An internal server error occurred</response>

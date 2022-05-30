@@ -48,6 +48,7 @@ namespace CommandCenter.API.Configurations
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
             services.AddScoped<ICreateFrameworkHandler, CreateFrameworkHandler>();
             services.AddScoped<IUpdateFrameworkHandler, UpdateFrameworkHandler>();
+            services.AddScoped<IRemoveFrameworkHandler, RemoveFrameworkHandler>();
 
             // Query => Handler
             services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
@@ -56,6 +57,7 @@ namespace CommandCenter.API.Configurations
             // Command => Handler
             services.AddScoped<IRequestHandler<BaseCreateCommand<FrameworkCreateResource>, string>, CreateFrameworkHandler>();
             services.AddScoped<IRequestHandler<BaseUpdateCommand<FrameworkCreateResource>, Unit>, UpdateFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseRemoveCommand<FrameworkBaseResource>, Unit>, RemoveFrameworkHandler>();
         }
     }
 }

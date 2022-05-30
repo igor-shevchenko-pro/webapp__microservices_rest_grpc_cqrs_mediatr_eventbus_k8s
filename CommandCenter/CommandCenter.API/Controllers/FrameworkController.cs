@@ -66,7 +66,7 @@ namespace CommandCenter.API.Controllers
         /// </remarks>
         /// <param name="id">The Id of the "<see cref="T:Framework"/>" resource to update</param>
         /// <param name="resource">The "<see cref="T:Framework"/>" resource to update</param>
-        /// <response code="204">The requested resource was deleted successfully</response>
+        /// <response code="204">The requested resource was updated successfully</response>
         /// <response code="400">The request could not be understood by server</response>
         /// <response code="404">Requested resource is not found</response>
         /// <response code="500">An internal server error occurred</response>
@@ -78,6 +78,32 @@ namespace CommandCenter.API.Controllers
         public async Task<IActionResult> UpdateAsync(string id, [FromBody] FrameworkCreateResource resource)
         {
             await Mediator.Send(new BaseUpdateCommand<FrameworkCreateResource>(id, resource));
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Delete the "<see cref="T:Framework"/>" resource by Id
+        /// </summary>
+        /// <remarks>
+        /// Sample of request:
+        /// The API request should be called with parameter "Id" from the URL
+        /// 
+        ///     DELETE /api/framework/6F9619FF-8B86-D011-B42D-00CF4FC964FF
+        /// 
+        /// </remarks>
+        /// <param name="id">The Id of the "<see cref="T:Framework"/>" resource to delete</param>
+        /// <response code="204">The requested resource was removed successfully</response>
+        /// <response code="400">The request could not be understood by server</response>
+        /// <response code="404">Requested resource is not found</response>
+        /// <response code="500">An internal server error occurred</response>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveAsync(string id)
+        {
+            await Mediator.Send(new BaseRemoveCommand<FrameworkBaseResource>(id));
             return NoContent();
         }
 
