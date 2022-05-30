@@ -47,13 +47,15 @@ namespace CommandCenter.API.Configurations
             services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
             services.AddScoped<ICreateFrameworkHandler, CreateFrameworkHandler>();
+            services.AddScoped<IUpdateFrameworkHandler, UpdateFrameworkHandler>();
 
             // Query => Handler
             services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
             services.AddScoped<IRequestHandler<BaseGetByIdQuery<FrameworkGetResource>, FrameworkGetResource>, GetByIdFrameworkHandler>();
 
-            //Command => Handler
+            // Command => Handler
             services.AddScoped<IRequestHandler<BaseCreateCommand<FrameworkCreateResource>, string>, CreateFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseUpdateCommand<FrameworkCreateResource>, Unit>, UpdateFrameworkHandler>();
         }
     }
 }

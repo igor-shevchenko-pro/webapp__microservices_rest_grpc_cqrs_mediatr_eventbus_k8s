@@ -49,6 +49,39 @@ namespace CommandCenter.API.Controllers
         }
 
         /// <summary>
+        /// Update an existing "<see cref="T:Framework"/>" resource
+        /// </summary>
+        /// <remarks>
+        /// Sample of request:
+        /// The API request should be called with parameters "Id" from the URL and "Resource" from the body
+        /// 
+        ///    PUT /api/framework/6F9619FF-8B86-D011-B42D-00CF4FC964FF
+        ///    {
+        ///        "operationalStateStatus": "Active",
+        ///        "name": "string",
+        ///        "version": "string",
+        ///        "releaseDate": "dateTime"
+        ///    }
+        /// 
+        /// </remarks>
+        /// <param name="id">The Id of the "<see cref="T:Framework"/>" resource to update</param>
+        /// <param name="resource">The "<see cref="T:Framework"/>" resource to update</param>
+        /// <response code="204">The requested resource was deleted successfully</response>
+        /// <response code="400">The request could not be understood by server</response>
+        /// <response code="404">Requested resource is not found</response>
+        /// <response code="500">An internal server error occurred</response>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateAsync(string id, [FromBody] FrameworkCreateResource resource)
+        {
+            await Mediator.Send(new BaseUpdateCommand<FrameworkCreateResource>(id, resource));
+            return NoContent();
+        }
+
+        /// <summary>
         /// Retrieve the "<see cref="T:Framework"/>" resource by Id
         /// </summary>
         /// <remarks>
