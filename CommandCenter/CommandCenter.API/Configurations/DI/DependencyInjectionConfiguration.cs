@@ -1,6 +1,7 @@
 ﻿using CommandCenter.BLL.CQRS.Commands.Base;
 using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.BLL.CQRS.Queries.Base;
+using CommandCenter.Core.Entities;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 
-namespace CommandCenter.API.Configurations
+namespace CommandCenter.API.Configurations.DI
 {
     public abstract class DependencyInjectionConfiguration
     {
@@ -46,6 +47,7 @@ namespace CommandCenter.API.Configurations
             // Handlers
             services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
+            services.AddScoped<IFindFrameworkHandler, FindFrameworkHandler>();
             services.AddScoped<ICreateFrameworkHandler, CreateFrameworkHandler>();
             services.AddScoped<IUpdateFrameworkHandler, UpdateFrameworkHandler>();
             services.AddScoped<IRemoveFrameworkHandler, RemoveFrameworkHandler>();
@@ -53,6 +55,7 @@ namespace CommandCenter.API.Configurations
             // Query => Handler
             services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
             services.AddScoped<IRequestHandler<BaseGetByIdQuery<FrameworkGetResource>, FrameworkGetResource>, GetByIdFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseFindQuery<Framework, FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, FindFrameworkHandler>();
 
             // Command => Handler
             services.AddScoped<IRequestHandler<BaseCreateCommand<FrameworkCreateResource>, string>, CreateFrameworkHandler>();

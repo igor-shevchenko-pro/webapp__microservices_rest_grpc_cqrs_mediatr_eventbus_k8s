@@ -24,7 +24,7 @@ using CommandCenter.Core.Interfaces.Entities;
 using MediatR;
 using CommandCenter.Core.Interfaces.Profiles.MapperProfiles;
 using CommandCenter.Core.Profiles.MapperProfiles.DataMapper;
-using CommandCenter.API.Configurations;
+using CommandCenter.API.Configurations.DI;
 
 namespace CommandCenter.API
 {
