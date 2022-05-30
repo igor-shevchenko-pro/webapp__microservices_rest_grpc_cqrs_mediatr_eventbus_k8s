@@ -32,7 +32,7 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
 
         public virtual async Task<Unit> Handle(IBaseUpdateCommand<TModelCreate> request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Trying to update {typeof(TEntity)} entity ...");
+            _logger.LogInformation($"Trying to update {typeof(TEntity)} entity with ID: {request.Id} ...");
 
             var entity = (await _repository.FindAsync(x => x.Id == request.Id)).FirstOrDefault();
             if (entity == null)

@@ -89,7 +89,7 @@ namespace DistributionCenter.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // DI
-            DependencyInjectionConfigurationBase register = new DependencyInjectionConfigurationBase(Configuration);
+            DependencyInjectionConfiguration register = new DependencyInjectionConfiguration(Configuration);
             register.RegisterAll(ref services);
         }
 
@@ -160,9 +160,9 @@ namespace DistributionCenter.API
     /// Mechanism of DependencyInjection registration moved from Startup to this class 
     /// It allows to have more complexity and flexibility operating with DI registration
     /// </summary>
-    internal class DependencyInjectionConfigurationBase : DependencyInjectionConfiguration
+    internal class DependencyInjectionConfiguration : BaseDependencyInjectionConfiguration
     {
-        public DependencyInjectionConfigurationBase(IConfiguration configuration)
+        public DependencyInjectionConfiguration(IConfiguration configuration)
             : base(configuration)
         {
         }

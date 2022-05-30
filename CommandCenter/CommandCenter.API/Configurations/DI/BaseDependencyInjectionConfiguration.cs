@@ -2,9 +2,11 @@
 using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.BLL.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.BLL.CQRS.Queries.Base;
+using CommandCenter.BLL.EventSenderHubs;
 using CommandCenter.Core.Entities;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers;
+using CommandCenter.Core.Interfaces.EventSenderHubs;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Repositories;
@@ -18,11 +20,11 @@ using System.Collections.Generic;
 
 namespace CommandCenter.API.Configurations.DI
 {
-    public abstract class DependencyInjectionConfiguration
+    public abstract class BaseDependencyInjectionConfiguration
     {
         protected readonly IConfiguration Configuration;
 
-        public DependencyInjectionConfiguration(IConfiguration configuration)
+        public BaseDependencyInjectionConfiguration(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -34,6 +36,7 @@ namespace CommandCenter.API.Configurations.DI
             RegisterConfigs(ref services);
             RegisterRepositories(ref services);
             RegisterCQRS(ref services);
+            RegisterHubEventSenders(ref services);
         }
 
         // Repositories
@@ -44,6 +47,7 @@ namespace CommandCenter.API.Configurations.DI
             services.AddScoped<IProtocolRepository, ProtocolRepository>();
         }
 
+        // CQRS
         public virtual void RegisterCQRS(ref IServiceCollection services)
         {
             // Handlers
@@ -75,6 +79,13 @@ namespace CommandCenter.API.Configurations.DI
             services.AddScoped<IRequestHandler<BaseCreateCommand<ProtocolCreateResource>, string>, CreateProtocolHandler>();
             services.AddScoped<IRequestHandler<BaseUpdateCommand<ProtocolCreateResource>, Unit>, UpdateProtocolHandler>();
             services.AddScoped<IRequestHandler<BaseRemoveCommand<ProtocolBaseResource>, Unit>, RemoveProtocolHandler>();
+        }
+
+        // SignalR Hubs
+        public virtual void RegisterHubEventSenders(ref IServiceCollection services)
+        {
+            services.AddScoped<IFrameworkEventSenderHub, FrameworkEventSenderHub>();
+            services.AddScoped<IProtocolEventSenderHub, ProtocolEventSenderHub>();
         }
     }
 }

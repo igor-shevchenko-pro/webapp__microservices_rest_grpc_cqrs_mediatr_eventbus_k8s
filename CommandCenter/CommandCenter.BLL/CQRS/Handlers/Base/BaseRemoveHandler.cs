@@ -30,7 +30,7 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
 
         public virtual async Task<Unit> Handle(IBaseRemoveCommand<TModelBase> request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Trying to remove {typeof(TEntity)} from a datastore ...");
+            _logger.LogInformation($"Trying to remove {typeof(TEntity)} with ID: {request.Id} from a datastore ...");
 
             var entity = await _repository.GetAsync(request.Id);
             if (entity == null)
@@ -41,7 +41,7 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
 
             await _repository.RemoveAsync(entity);
 
-            _logger.LogInformation($"{typeof(TModelBase)} was removed successfully.");
+            _logger.LogInformation($"{typeof(TModelBase)} with ID: {request.Id} was removed successfully.");
 
             return Unit.Value;
         }

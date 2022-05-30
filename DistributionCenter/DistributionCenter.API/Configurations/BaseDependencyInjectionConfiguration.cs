@@ -11,11 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DistributionCenter.API.Configurations
 {
-    public abstract class DependencyInjectionConfiguration
+    public abstract class BaseDependencyInjectionConfiguration
     {
         protected readonly IConfiguration Configuration;
 
-        public DependencyInjectionConfiguration(IConfiguration configuration)
+        public BaseDependencyInjectionConfiguration(IConfiguration configuration)
         {
             Configuration = configuration;
         }

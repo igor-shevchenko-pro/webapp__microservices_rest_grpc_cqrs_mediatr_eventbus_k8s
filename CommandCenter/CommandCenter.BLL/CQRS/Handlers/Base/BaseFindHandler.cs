@@ -33,7 +33,7 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
             var entities = await _repository.FindAsync(request.Predicate);
             var models = _dataMapper.MapCollection<TEntity, TModelGet>(entities);
 
-            _logger.LogInformation($"{typeof(TModelGet)} was received successfully.");
+            _logger.LogInformation($"Collection of {typeof(TModelGet)} based on request condition was received successfully.");
 
             return models;
         }

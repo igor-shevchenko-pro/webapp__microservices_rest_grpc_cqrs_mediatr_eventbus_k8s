@@ -40,7 +40,7 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
 
             var model = _dataMapper.Map<TEntity, TModelGet>(entity);
 
-            _logger.LogInformation($"{typeof(TModelGet)} was received successfully.");
+            _logger.LogInformation($"{typeof(TModelGet)} with ID: {request.Id} was received successfully.");
 
             return model;
         }
