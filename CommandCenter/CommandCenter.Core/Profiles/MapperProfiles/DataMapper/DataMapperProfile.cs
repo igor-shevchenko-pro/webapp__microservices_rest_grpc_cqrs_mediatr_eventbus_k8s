@@ -22,6 +22,9 @@ namespace CommandCenter.Core.Profiles.MapperProfiles.DataMapper
         {
             // Framework
             CreateMap<Framework, FrameworkGetResource>();
+
+            // Protocol
+            CreateMap<Protocol, ProtocolGetResource>();
         }
     }
 }

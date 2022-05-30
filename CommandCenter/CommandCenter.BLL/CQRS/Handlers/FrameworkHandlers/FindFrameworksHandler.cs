@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers
 {
-    public class FindFrameworkHandler : BaseFindHandler<Framework, FrameworkGetResource>, IFindFrameworkHandler
+    public class FindFrameworksHandler : BaseFindHandler<Framework, FrameworkGetResource>, IFindFrameworksHandler
     {
-        public FindFrameworkHandler(IFrameworkRepository repository, IDataMapper dataMapper, ILogger<FindFrameworkHandler> logger)
+        public FindFrameworksHandler(IFrameworkRepository repository, IDataMapper dataMapper, ILogger<FindFrameworksHandler> logger)
             : base(repository, dataMapper, logger)
         {
         }

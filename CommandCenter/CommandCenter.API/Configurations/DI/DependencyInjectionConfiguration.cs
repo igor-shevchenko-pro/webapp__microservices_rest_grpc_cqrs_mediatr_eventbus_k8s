@@ -1,8 +1,10 @@
 ﻿using CommandCenter.BLL.CQRS.Commands.Base;
 using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
+using CommandCenter.BLL.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.Core.Entities;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
+using CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Repositories;
@@ -47,20 +49,32 @@ namespace CommandCenter.API.Configurations.DI
             // Handlers
             services.AddScoped<IGetAllFrameworksHandler, GetAllFrameworksHandler>();
             services.AddScoped<IGetByIdFrameworkHandler, GetByIdFrameworkHandler>();
-            services.AddScoped<IFindFrameworkHandler, FindFrameworkHandler>();
+            services.AddScoped<IFindFrameworksHandler, FindFrameworksHandler>();
             services.AddScoped<ICreateFrameworkHandler, CreateFrameworkHandler>();
             services.AddScoped<IUpdateFrameworkHandler, UpdateFrameworkHandler>();
             services.AddScoped<IRemoveFrameworkHandler, RemoveFrameworkHandler>();
+            services.AddScoped<IGetAllProtocolsHandler, GetAllProtocolsHandler>();
+            services.AddScoped<IGetByIdProtocolHandler, GetByIdProtocolHandler>();
+            services.AddScoped<IFindProtocolsHandler, FindProtocolsHandler>();
+            services.AddScoped<ICreateProtocolHandler, CreateProtocolHandler>();
+            services.AddScoped<IUpdateProtocolHandler, UpdateProtocolHandler>();
+            services.AddScoped<IRemoveProtocolHandler, RemoveProtocolHandler>();
 
             // Query => Handler
             services.AddScoped<IRequestHandler<BaseGetAllQuery<FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, GetAllFrameworksHandler>();
             services.AddScoped<IRequestHandler<BaseGetByIdQuery<FrameworkGetResource>, FrameworkGetResource>, GetByIdFrameworkHandler>();
-            services.AddScoped<IRequestHandler<BaseFindQuery<Framework, FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, FindFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseFindQuery<Framework, FrameworkGetResource>, IEnumerable<FrameworkGetResource>>, FindFrameworksHandler>();
+            services.AddScoped<IRequestHandler<BaseGetAllQuery<ProtocolGetResource>, IEnumerable<ProtocolGetResource>>, GetAllProtocolsHandler>();
+            services.AddScoped<IRequestHandler<BaseGetByIdQuery<ProtocolGetResource>, ProtocolGetResource>, GetByIdProtocolHandler>();
+            services.AddScoped<IRequestHandler<BaseFindQuery<Protocol, ProtocolGetResource>, IEnumerable<ProtocolGetResource>>, FindProtocolsHandler>();
 
             // Command => Handler
             services.AddScoped<IRequestHandler<BaseCreateCommand<FrameworkCreateResource>, string>, CreateFrameworkHandler>();
             services.AddScoped<IRequestHandler<BaseUpdateCommand<FrameworkCreateResource>, Unit>, UpdateFrameworkHandler>();
             services.AddScoped<IRequestHandler<BaseRemoveCommand<FrameworkBaseResource>, Unit>, RemoveFrameworkHandler>();
+            services.AddScoped<IRequestHandler<BaseCreateCommand<ProtocolCreateResource>, string>, CreateProtocolHandler>();
+            services.AddScoped<IRequestHandler<BaseUpdateCommand<ProtocolCreateResource>, Unit>, UpdateProtocolHandler>();
+            services.AddScoped<IRequestHandler<BaseRemoveCommand<ProtocolBaseResource>, Unit>, RemoveProtocolHandler>();
         }
     }
 }
