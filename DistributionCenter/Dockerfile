@@ -12,6 +12,7 @@ COPY ["DistributionCenter.DAL.MSSQL/DistributionCenter.DAL.MSSQL.csproj", "Distr
 COPY ["DistributionCenter.Core/DistributionCenter.Core.csproj", "DistributionCenter.Core/"]
 COPY ["DistributionCenter.BLL/DistributionCenter.BLL.csproj", "DistributionCenter.BLL/"]
 COPY ["DistributionCenter.DAL/DistributionCenter.DAL.csproj", "DistributionCenter.DAL/"]
+COPY ["DistributionCenter.DataProviders/DistributionCenter.DataProviders.csproj", "DistributionCenter.DataProviders/"]
 RUN dotnet restore "DistributionCenter.API/DistributionCenter.API.csproj"
 COPY . .
 WORKDIR "/src/DistributionCenter.API"
