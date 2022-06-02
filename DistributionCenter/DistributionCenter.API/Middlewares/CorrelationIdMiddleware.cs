@@ -1,4 +1,5 @@
 ﻿using DistributionCenter.Core;
+using DistributionCenter.Core.Contexts.CorrelationId;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
@@ -6,7 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DistributionCenter.API.Middlewares.CorrelationId
+namespace DistributionCenter.API.Middlewares
 {
     public class CorrelationIdMiddleware
     {

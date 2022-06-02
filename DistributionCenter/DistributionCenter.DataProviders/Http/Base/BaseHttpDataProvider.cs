@@ -1,7 +1,9 @@
 ﻿using DistributionCenter.Core.Interfaces.DataProviders.Base;
 using DistributionCenter.Core.Interfaces.Resources.Base;
 using DistributionCenter.Core.Models.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -19,44 +21,104 @@ namespace DistributionCenter.DataProviders.Http.Base
         {
             HttpClient = httpClient;
         }
+
         public virtual async Task<string> CreateAsync(TModelCreate resource)
         {
             var httpContent = new StringContent(JsonSerializer.Serialize(resource), Encoding.UTF8, HttpClient.DefaultRequestHeaders.Accept.ToString());
-            var httpResponse = await HttpClient.PostAsync(HttpClient.BaseAddress, httpContent);
 
-            if (!httpResponse.IsSuccessStatusCode)
+            try
             {
-                throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}", httpResponse.StatusCode);
+                var httpResponse = await HttpClient.PostAsync(HttpClient.BaseAddress, httpContent);
             }
+            catch (Exception ex)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
+            }
+
+            //if (!httpResponse.IsSuccessStatusCode)
+            //{
+            //    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}", httpResponse.StatusCode);
+            //}
 
             return null;
         }
 
         public virtual async Task UpdateAsync(string id, TModelCreate resource)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
+            }
         }
 
         public virtual async Task RemoveAsync(string id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
+            }
         }
 
         public virtual async Task<TModelGet> GetAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var httpResponse = default(HttpResponseMessage);
+            var result = default(TModelGet);
+
+            try
+            {
+                httpResponse = await HttpClient.GetAsync($"{HttpClient.BaseAddress}/{id}");
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}/{id}", ex, HttpStatusCode.BadGateway);
+            }
+
+            using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
+            {
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                result = await JsonSerializer.DeserializeAsync<TModelGet>(reponseStream, options);
+            }
+
+            return result;
         }
 
         public virtual async Task<IEnumerable<TModelGet>> GetAllAsync()
         {
-            var httpResponse = await HttpClient.GetAsync(HttpClient.BaseAddress);
+            var httpResponse = default(HttpResponseMessage);
+            var result = default(IEnumerable<TModelGet>);
 
-            if (!httpResponse.IsSuccessStatusCode)
+            try
             {
-                throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}", httpResponse.StatusCode);
+                httpResponse = await HttpClient.GetAsync(HttpClient.BaseAddress);
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
             }
 
-            return null;
+            using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
+            {
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                result = await JsonSerializer.DeserializeAsync<IEnumerable<TModelGet>>(reponseStream, options);
+            }
+
+            return result;
         }
     }
 }

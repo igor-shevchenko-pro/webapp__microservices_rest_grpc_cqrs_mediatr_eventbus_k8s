@@ -27,7 +27,7 @@ namespace DistributionCenter.API.Configurations
             RegisterConfigs(ref services);
             RegisterRepositories(ref services);
             RegisterServices(ref services);
-            RegisterHttpClients(ref services);
+            RegisterHttpDataProviders(ref services);
         }
 
         // Repositories
@@ -43,10 +43,11 @@ namespace DistributionCenter.API.Configurations
         {
             services.AddScoped<IPlatformService, PlatformService>();
             services.AddScoped<IServerService, ServerService>();
+            services.AddScoped<IFrameworkService, FrameworkService>();
         }
 
-        // HttpClients
-        public virtual void RegisterHttpClients(ref IServiceCollection services)
+        // HttpDataProviders
+        public virtual void RegisterHttpDataProviders(ref IServiceCollection services)
         {
             services.AddHttpClient<IFrameworkHttpDataProvider, FrameworkHttpDataProvider>();
         }

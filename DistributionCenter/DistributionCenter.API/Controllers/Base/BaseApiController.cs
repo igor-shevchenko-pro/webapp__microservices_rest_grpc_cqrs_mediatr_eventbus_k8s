@@ -1,5 +1,4 @@
-﻿using DistributionCenter.Core.Interfaces.Services.Base;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DistributionCenter.API.Controllers.Base
 {
@@ -9,7 +8,6 @@ namespace DistributionCenter.API.Controllers.Base
         // Define here any common logic
 
         protected virtual string GetUserId() => string.Empty;
-
         protected virtual string GetLanguageId() => string.Empty;
     }
 }

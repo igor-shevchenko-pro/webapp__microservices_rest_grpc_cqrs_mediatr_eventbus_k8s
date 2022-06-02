@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 
-namespace DistributionCenter.API.Middlewares.CorrelationId
+namespace DistributionCenter.Core.Contexts.CorrelationId
 {
-    public class CorrelationIdContext
+    public abstract class CorrelationIdContext
     {
         private static readonly AsyncLocal<string> _correlationId = new AsyncLocal<string>();
 

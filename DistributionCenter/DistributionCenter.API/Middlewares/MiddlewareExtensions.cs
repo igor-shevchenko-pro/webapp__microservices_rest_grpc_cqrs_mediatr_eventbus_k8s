@@ -6,7 +6,7 @@ namespace DistributionCenter.API.Middlewares
     {
         public static IApplicationBuilder UseRequestCorrelationId(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<CorrelationId.CorrelationIdMiddleware>();
+            return builder.UseMiddleware<CorrelationIdMiddleware>();
         }
 
         public static IApplicationBuilder UseExceptionHandlingMiddleware(this IApplicationBuilder builder)

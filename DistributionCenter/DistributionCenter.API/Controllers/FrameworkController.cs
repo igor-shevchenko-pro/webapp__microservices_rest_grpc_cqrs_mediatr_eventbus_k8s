@@ -1,14 +1,13 @@
-﻿using CommandCenter.API.Controllers.Base;
-using CommandCenter.BLL.CQRS.Commands.Base;
-using CommandCenter.BLL.CQRS.Queries.Base;
-using CommandCenter.Core.Resources;
-using CommandCenter.Core.Resources.Base;
+﻿using DistributionCenter.API.Controllers.Base;
+using DistributionCenter.Core.Interfaces.Services;
+using DistributionCenter.Core.Resources;
+using DistributionCenter.Core.Resources.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CommandCenter.API.Controllers
+namespace DistributionCenter.API.Controllers
 {
     /// <summary>
     /// Controller used for handling "<see cref="T:Framework"/>" resources
@@ -16,10 +15,20 @@ namespace CommandCenter.API.Controllers
     [ApiController]
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("1.1")]
-    [ApiVersion("1.2")]
     [Route("api/[controller]")]
     public class FrameworkController : BaseApiController
     {
+        private readonly IFrameworkService _frameworkService;
+
+        /// <summary>
+        /// Constructor of FrameworkController
+        /// </summary>
+        /// <param name="frameworkService"></param>
+        public FrameworkController(IFrameworkService frameworkService)
+        {
+            _frameworkService = frameworkService;
+        }
+
         /// <summary>
         /// Create a new "<see cref="T:Framework"/>" resource
         /// </summary>
@@ -46,7 +55,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateAsync([FromBody] FrameworkCreateResource resource)
         {
-            var id = await Mediator.Send(new BaseCreateCommand<FrameworkCreateResource>(resource));
+            var id = await _frameworkService.CreateAsync(resource);
             return CreatedAtAction(nameof(GetAsync), new { Id = id }, resource);
         }
 
@@ -79,7 +88,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateAsync(string id, [FromBody] FrameworkCreateResource resource)
         {
-            await Mediator.Send(new BaseUpdateCommand<FrameworkCreateResource>(id, resource));
+            await _frameworkService.UpdateAsync(id, resource);
             return NoContent();
         }
 
@@ -105,7 +114,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RemoveAsync(string id)
         {
-            await Mediator.Send(new BaseRemoveCommand<FrameworkBaseResource>(id));
+            await _frameworkService.RemoveAsync(id);
             return NoContent();
         }
 
@@ -131,7 +140,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync(string id)
         {
-            var model = await Mediator.Send(new BaseGetByIdQuery<FrameworkGetResource>(id));
+            var model = await _frameworkService.GetAsync(id);
             return Ok(model);
         }
 
@@ -154,7 +163,7 @@ namespace CommandCenter.API.Controllers
         [ProducesResponseType(typeof(ErrorDetailsResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
         {
-            var models = await Mediator.Send(new BaseGetAllQuery<FrameworkGetResource>());
+            var models = await _frameworkService.GetAllAsync();
             return Ok(models);
         }
     }
