@@ -48,7 +48,7 @@ namespace DistributionCenter.API.Configurations
         // HttpClients
         public virtual void RegisterHttpClients(ref IServiceCollection services)
         {
-            services.AddHttpClient<IPlatformHttpDataProvider, PlatformHttpDataProvider>();
+            services.AddHttpClient<IFrameworkHttpDataProvider, FrameworkHttpDataProvider>();
         }
     }
 }

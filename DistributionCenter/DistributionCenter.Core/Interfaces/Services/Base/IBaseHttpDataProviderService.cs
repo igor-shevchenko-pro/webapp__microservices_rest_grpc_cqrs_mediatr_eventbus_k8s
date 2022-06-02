@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DistributionCenter.Core.Interfaces.DataProviders.Base
+namespace DistributionCenter.Core.Interfaces.Services.Base
 {
-    public interface IBaseHttpDataProvider<TModelCreate, TModelGet>
+    public interface IBaseHttpDataProviderService<TModelCreate, TModelGet>
         where TModelCreate : class, IBaseResource
         where TModelGet : class, IBaseResource
     {

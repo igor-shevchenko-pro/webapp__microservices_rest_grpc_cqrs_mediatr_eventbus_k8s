@@ -14,7 +14,8 @@ namespace CommandCenter.API.Controllers
     /// Controller used for handling "<see cref="T:Framework"/>" resources
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1.1")]
     [Route("api/[controller]")]
     public class FrameworkController : BaseApiController
     {

@@ -8,9 +8,9 @@ using System.Net.Http;
 
 namespace DistributionCenter.DataProviders.Http
 {
-    public class PlatformHttpDataProvider : BaseHttpDataProvider<PlatformGetResource>, IPlatformHttpDataProvider
+    public class FrameworkHttpDataProvider : BaseHttpDataProvider<FrameworkCreateResource, FrameworkGetResource>, IFrameworkHttpDataProvider
     {
-        public PlatformHttpDataProvider(HttpClient httpClient, IConfiguration configuration)
+        public FrameworkHttpDataProvider(HttpClient httpClient, IConfiguration configuration)
             : base(httpClient)
         {
             var baseAddress = configuration["CommandCenter.API:BaseAddress"];
