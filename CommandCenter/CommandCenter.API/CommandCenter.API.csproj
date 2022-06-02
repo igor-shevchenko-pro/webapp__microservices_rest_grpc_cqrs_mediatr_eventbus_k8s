@@ -25,6 +25,7 @@
 	<ProjectReference Include="..\CommandCenter.Core\CommandCenter.Core.csproj" />
 	<ProjectReference Include="..\CommandCenter.DAL.PostgreSQL\CommandCenter.DAL.PostgreSQL.csproj" />
 	<ProjectReference Include="..\CommandCenter.DAL\CommandCenter.DAL.csproj" />
+	<ProjectReference Include="..\CommandCenter.DataProviders\CommandCenter.DataProviders.csproj" />
   </ItemGroup>	
 	
   <ItemGroup>
