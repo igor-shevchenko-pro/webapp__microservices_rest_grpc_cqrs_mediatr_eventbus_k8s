@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DistributionCenter.Core
 {
@@ -9,6 +8,7 @@ namespace DistributionCenter.Core
         {
             public const string CORRELATION_ID = "X-Correlation-ID";
             public const string API_VERSION = "X-Api-Version";
+            public const string API_SUPPORTED_VERSIONS = "api-supported-versions";
         }
 
         public static class SwaggerConfigurations

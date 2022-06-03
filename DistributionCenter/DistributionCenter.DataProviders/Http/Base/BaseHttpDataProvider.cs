@@ -1,8 +1,10 @@
-﻿using DistributionCenter.Core.Interfaces.DataProviders.Base;
+﻿using DistributionCenter.Core;
+using DistributionCenter.Core.Interfaces.DataProviders.Base;
 using DistributionCenter.Core.Interfaces.Resources.Base;
 using DistributionCenter.Core.Models.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -82,15 +84,13 @@ namespace DistributionCenter.DataProviders.Http.Base
             try
             {
                 httpResponse = await HttpClient.GetAsync($"{HttpClient.BaseAddress}/{id}");
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}");
-                }
             }
             catch (Exception ex)
             {
                 throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}/{id}", ex, HttpStatusCode.BadGateway);
             }
+
+            HandleResponseStatus(HttpClient, httpResponse);
 
             using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
             {
@@ -108,15 +108,13 @@ namespace DistributionCenter.DataProviders.Http.Base
             try
             {
                 httpResponse = await HttpClient.GetAsync(HttpClient.BaseAddress);
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {HttpClient.BaseAddress}");
-                }
             }
             catch (Exception ex)
             {
                 throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
             }
+
+            HandleResponseStatus(HttpClient, httpResponse);
 
             using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
             {
@@ -124,6 +122,26 @@ namespace DistributionCenter.DataProviders.Http.Base
             }
 
             return result;
+        }
+
+        protected virtual void HandleResponseStatus(HttpClient httpClient, HttpResponseMessage httpResponse)
+        {
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                var supportedVersions = httpResponse.Headers.GetValues(Constants.HttpContextHeaderKeys.API_SUPPORTED_VERSIONS);
+                var specifiedVersion = httpClient.DefaultRequestVersion.ToString();
+
+                if (!supportedVersions.Contains(specifiedVersion))
+                {
+                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {httpClient.BaseAddress}",
+                        new UnsupportedApiVersionException($"UnsupportedApiVersionException occurred while connecting to {httpClient.BaseAddress} with apiVersion: {specifiedVersion}"),
+                        HttpStatusCode.HttpVersionNotSupported);
+                }
+                else
+                {
+                    throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {httpClient.BaseAddress}");
+                }
+            }
         }
     }
 }
