@@ -79,7 +79,6 @@ namespace DistributionCenter.DataProviders.Http.Base
         public virtual async Task<TModelGet> GetAsync(string id)
         {
             var httpResponse = default(HttpResponseMessage);
-            var result = default(TModelGet);
 
             try
             {
@@ -90,20 +89,12 @@ namespace DistributionCenter.DataProviders.Http.Base
                 throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}/{id}", ex, HttpStatusCode.BadGateway);
             }
 
-            HandleResponseStatus(HttpClient, httpResponse);
-
-            using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
-            {
-                result = await JsonSerializer.DeserializeAsync<TModelGet>(reponseStream, JsonSerializerOptions);
-            }
-
-            return result;
+            return await HandleHttpResponseAsync<TModelGet>(HttpClient, httpResponse);
         }
 
         public virtual async Task<IEnumerable<TModelGet>> GetAllAsync()
         {
             var httpResponse = default(HttpResponseMessage);
-            var result = default(IEnumerable<TModelGet>);
 
             try
             {
@@ -114,21 +105,15 @@ namespace DistributionCenter.DataProviders.Http.Base
                 throw new HttpDataProviderException($"HttpDataProviderException occurred while connecting to {HttpClient.BaseAddress}", ex, HttpStatusCode.BadGateway);
             }
 
-            HandleResponseStatus(HttpClient, httpResponse);
-
-            using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
-            {
-                result = await JsonSerializer.DeserializeAsync<IEnumerable<TModelGet>>(reponseStream, JsonSerializerOptions);
-            }
-
-            return result;
+            return await HandleHttpResponseAsync<IEnumerable<TModelGet>>(HttpClient, httpResponse);
         }
 
-        protected virtual void HandleResponseStatus(HttpClient httpClient, HttpResponseMessage httpResponse)
+        protected virtual async Task<T> HandleHttpResponseAsync<T>(HttpClient httpClient, HttpResponseMessage httpResponse, JsonSerializerOptions jsonSerializerOptions = null)
         {
             if (!httpResponse.IsSuccessStatusCode)
             {
-                var supportedVersions = httpResponse.Headers.GetValues(Constants.HttpContextHeaderKeys.API_SUPPORTED_VERSIONS);
+                var supportedVersionsList = httpResponse.Headers.GetValues(Constants.HttpContextHeaderKeys.API_SUPPORTED_VERSIONS);
+                var supportedVersions = supportedVersionsList.FirstOrDefault().Split(", ");
                 var specifiedVersion = httpClient.DefaultRequestVersion.ToString();
 
                 if (!supportedVersions.Contains(specifiedVersion))
@@ -142,6 +127,20 @@ namespace DistributionCenter.DataProviders.Http.Base
                     throw new HttpDataProviderException($"HttpDataProviderException occurred while operating with {httpClient.BaseAddress}");
                 }
             }
+
+            return await DeserializeResponseAsync<T>(httpResponse, jsonSerializerOptions);
+        }
+
+        protected virtual async Task<T> DeserializeResponseAsync<T>(HttpResponseMessage httpResponse, JsonSerializerOptions jsonSerializerOptions = null)
+        {
+            var result = default(T);
+
+            using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
+            {
+                result = await JsonSerializer.DeserializeAsync<T>(reponseStream, jsonSerializerOptions ?? JsonSerializerOptions);
+            }
+
+            return result;
         }
     }
 }
