@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DistributionCenter.DataProviders.Http.Base
@@ -16,10 +17,16 @@ namespace DistributionCenter.DataProviders.Http.Base
         where TModelGet : class, IBaseResource
     {
         protected HttpClient HttpClient { get; set; }
+        protected virtual JsonSerializerOptions JsonSerializerOptions { get; set; }
 
         public BaseHttpDataProvider(HttpClient httpClient)
         {
             HttpClient = httpClient;
+            JsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
         }
 
         public virtual async Task<string> CreateAsync(TModelCreate resource)
@@ -87,8 +94,7 @@ namespace DistributionCenter.DataProviders.Http.Base
 
             using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
             {
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                result = await JsonSerializer.DeserializeAsync<TModelGet>(reponseStream, options);
+                result = await JsonSerializer.DeserializeAsync<TModelGet>(reponseStream, JsonSerializerOptions);
             }
 
             return result;
@@ -114,8 +120,7 @@ namespace DistributionCenter.DataProviders.Http.Base
 
             using (var reponseStream = await httpResponse.Content.ReadAsStreamAsync())
             {
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                result = await JsonSerializer.DeserializeAsync<IEnumerable<TModelGet>>(reponseStream, options);
+                result = await JsonSerializer.DeserializeAsync<IEnumerable<TModelGet>>(reponseStream, JsonSerializerOptions);
             }
 
             return result;
