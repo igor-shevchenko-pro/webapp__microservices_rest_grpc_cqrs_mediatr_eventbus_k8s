@@ -1,7 +1,9 @@
-﻿using CommandCenter.Core.Interfaces.EventSenderHubs;
+﻿using CommandCenter.Core.Entities;
+using CommandCenter.Core.Interfaces.EventSenderHubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace CommandCenter.BLL.EventSenderHubs
 {
@@ -28,6 +30,16 @@ namespace CommandCenter.BLL.EventSenderHubs
             _hubMethod = configuration["SocketAPI:Framework:Method"];
             _hubContext = hubContext;
             _logger = logger;
+            _logger.LogInformation($"FrameworkEventSenderHub method is: {_hubMethod}");
+        }
+
+        public async Task UpdateGeneralStatusAsync(Framework entity)
+        {
+            var model = entity.ToViewModel();
+
+            _logger.LogInformation($"Raise update of the FrameworkEntity: {model.ToJson()}");
+
+            await _hubContext.Clients.All.SendAsync(_hubMethod, model);
         }
     }
 }

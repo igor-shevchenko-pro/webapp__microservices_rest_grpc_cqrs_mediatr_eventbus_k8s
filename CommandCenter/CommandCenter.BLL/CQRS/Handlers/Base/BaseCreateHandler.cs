@@ -2,6 +2,7 @@
 using CommandCenter.Core.Interfaces.CQRS.Commands.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.Base;
 using CommandCenter.Core.Interfaces.Entities.Base;
+using CommandCenter.Core.Interfaces.EventSenderHubs;
 using CommandCenter.Core.Interfaces.Profiles.MapperProfiles;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Interfaces.Resources.Base;
@@ -17,12 +18,18 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
     {
         protected readonly IBaseRepository<TEntity> _repository;
         protected readonly IDataMapper _dataMapper;
+        protected readonly IProtocolEventSenderHub _protocolEventSenderHub;
         protected readonly ILogger<BaseCreateHandler<TEntity, TModelCreate>> _logger;
 
-        public BaseCreateHandler(IBaseRepository<TEntity> repository, IDataMapper dataMapper, ILogger<BaseCreateHandler<TEntity, TModelCreate>> logger)
+        public BaseCreateHandler(
+            IBaseRepository<TEntity> repository, 
+            IDataMapper dataMapper,
+            IProtocolEventSenderHub protocolEventSenderHub,
+            ILogger<BaseCreateHandler<TEntity, TModelCreate>> logger)
         {
             _repository = repository;
             _dataMapper = dataMapper;
+            _protocolEventSenderHub = protocolEventSenderHub; // <--
             _logger = logger;
         }
 
@@ -36,6 +43,10 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
             var id = await _repository.CreateAsync(entity);
 
             _logger.LogInformation($"{typeof(TEntity)} entity with Id {id} was created successfully.");
+
+
+            // need refactoring <--
+            await _protocolEventSenderHub.UpdateGeneralStatusAsync(entity);
 
             return id;
         }
