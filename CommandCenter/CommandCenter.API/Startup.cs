@@ -124,8 +124,8 @@ namespace CommandCenter.API
                 endpoints.MapControllers();
 
                 // SignalR Hubs
-                endpoints.MapHub<FrameworkEventSenderHub>(Configuration["SocketAPI:Framework:Url"]);
-                endpoints.MapHub<ProtocolEventSenderHub>(Configuration["SocketAPI:Protocol:Url"]);
+                endpoints.MapHub<FrameworkEventSenderHub>(Configuration["SocketAPI:FrameworkGetResource:Url"]);
+                endpoints.MapHub<ProtocolEventSenderHub>(Configuration["SocketAPI:ProtocolGetResource:Url"]);
 
                 ////gRPC
                 //endpoints.MapGrpcService<GrpcPlatformService>();

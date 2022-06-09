@@ -1,14 +1,9 @@
-﻿using CommandCenter.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommandCenter.Core.Interfaces.EventSenderHubs.Base;
+using CommandCenter.Core.Resources;
 
 namespace CommandCenter.Core.Interfaces.EventSenderHubs
 {
-    public interface IFrameworkEventSenderHub
+    public interface IFrameworkEventSenderHub : IBaseEventSenderHub<FrameworkGetResource>
     {
-        Task UpdateGeneralStatusAsync(Framework entity);
     }
 }
