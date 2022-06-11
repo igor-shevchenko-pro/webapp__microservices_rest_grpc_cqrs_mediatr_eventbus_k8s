@@ -20,7 +20,10 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
         protected readonly IDataMapper _dataMapper;
         protected readonly ILogger<BaseGetByIdHandler<TEntity, TModelGet>> _logger;
 
-        public BaseGetByIdHandler(IBaseRepository<TEntity> repository, IDataMapper dataMapper, ILogger<BaseGetByIdHandler<TEntity, TModelGet>> logger)
+        public BaseGetByIdHandler(
+            IBaseRepository<TEntity> repository, 
+            IDataMapper dataMapper,
+            ILogger<BaseGetByIdHandler<TEntity, TModelGet>> logger)
         {
             _repository = repository;
             _dataMapper = dataMapper;

@@ -3,7 +3,11 @@ using CommandCenter.BLL.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.BLL.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.BLL.CQRS.Queries.Base;
 using CommandCenter.BLL.EventSenderHubs;
+using CommandCenter.Core.Caches.EventSenderHubConnectionsCache;
+using CommandCenter.Core.Caches.EventSenderHubConnectionsCache.Base;
 using CommandCenter.Core.Entities;
+using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache;
+using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.Core.Interfaces.EventSenderHubs;
@@ -81,11 +85,18 @@ namespace CommandCenter.API.Configurations.DI
             services.AddScoped<IRequestHandler<BaseRemoveCommand<ProtocolBaseResource>, Unit>, RemoveProtocolHandler>();
         }
 
-        // SignalR Hubs
+        // SignalR
         public virtual void RegisterHubEventSenders(ref IServiceCollection services)
         {
-            services.AddScoped<IFrameworkEventSenderHub, FrameworkEventSenderHub>();
-            services.AddScoped<IProtocolEventSenderHub, ProtocolEventSenderHub>();
+            services.AddScoped<IEventSenderHubClient, EventSenderHubClient>();
+
+            // Hubs
+            services.AddSingleton<IFrameworkEventSenderHub, FrameworkEventSenderHub>();
+            services.AddSingleton<IProtocolEventSenderHub, ProtocolEventSenderHub>();
+
+            // Caches
+            services.AddSingleton<IFrameworkEventSenderHubConnectionsCache, FrameworkEventSenderHubConnectionsCache>();
+            services.AddSingleton<IProtocolEventSenderHubConnectionsCache, ProtocolEventSenderHubConnectionsCache>();
         }
     }
 }

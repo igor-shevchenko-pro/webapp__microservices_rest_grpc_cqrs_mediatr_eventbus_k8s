@@ -1,4 +1,5 @@
 ﻿using CommandCenter.Core.Interfaces.Resources.Base;
+using System;
 using System.Threading.Tasks;
 
 namespace CommandCenter.Core.Interfaces.EventSenderHubs.Base
@@ -6,6 +7,7 @@ namespace CommandCenter.Core.Interfaces.EventSenderHubs.Base
     public interface IBaseEventSenderHub<TModelGet>
         where TModelGet : class, IBaseResource
     {
-        Task BroadcastMessageAsync(TModelGet model);
+        Task OnConnectedAsync();
+        Task OnDisconnectedAsync(Exception exception);
     }
 }

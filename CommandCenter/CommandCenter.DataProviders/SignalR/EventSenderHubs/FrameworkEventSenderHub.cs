@@ -1,7 +1,7 @@
-﻿using CommandCenter.Core.Interfaces.EventSenderHubs;
+﻿using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache;
+using CommandCenter.Core.Interfaces.EventSenderHubs;
 using CommandCenter.Core.Resources;
 using CommandCenter.DataProviders.SignalR.EventSenderHubs.Base;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,13 +16,13 @@ namespace CommandCenter.BLL.EventSenderHubs
         /// Constructor of FrameworkEventSenderHub
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="hubContext"></param>
+        /// <param name="eventSenderHubConnectionsCache"></param>
         /// <param name="logger"></param>
         public FrameworkEventSenderHub(
             IConfiguration configuration,
-            IHubContext<BaseEventSenderHub<FrameworkGetResource>> hubContext,
+            IFrameworkEventSenderHubConnectionsCache eventSenderHubConnectionsCache,
             ILogger<FrameworkEventSenderHub> logger)
-            : base(configuration, hubContext, logger)
+            : base(configuration, eventSenderHubConnectionsCache, logger)
         {
         }
     }

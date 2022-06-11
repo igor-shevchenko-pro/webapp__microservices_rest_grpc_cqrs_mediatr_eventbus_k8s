@@ -88,7 +88,16 @@ namespace CommandCenter.API
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(typeof(Startup));
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(20);
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(40);
+                hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(5);
+                hubOptions.MaximumParallelInvocationsPerClient = 10;
+                hubOptions.MaximumReceiveMessageSize = 10 * 1024 * 1024;
+                hubOptions.StreamBufferCapacity = 50;
+                hubOptions.EnableDetailedErrors = true;
+            });
 
             // DI
             DependencyInjectionConfiguration register = new DependencyInjectionConfiguration(Configuration);
