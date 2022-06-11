@@ -5,6 +5,6 @@ namespace CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache.Ba
     public interface IEventSenderHubClient
     {
         string Id { get; set; }
-        IEnumerable<string> ConnectionIds { get; set; }
+        IList<string> ConnectionIds { get; set; }
     }
 }

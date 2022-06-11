@@ -4,7 +4,7 @@ using CommandCenter.Core.Interfaces.Resources.Base;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace CommandCenter.Core.Caches.EventSenderHubConnectionsCache.Base
 {
@@ -12,72 +12,120 @@ namespace CommandCenter.Core.Caches.EventSenderHubConnectionsCache.Base
         where THub : class, IBaseEventSenderHub<TModelGet>
         where TModelGet : class, IBaseResource
     {
-        protected readonly object _clientLocker = new object();
+        protected readonly object _clientLocker;
+        protected IList<IEventSenderHubClient> _hubClients;
         protected readonly ILogger<BaseEventSenderHubConnectionsCache<THub, TModelGet>> _logger;
-        protected IEnumerable<IEventSenderHubClient> _hubClients { get; }
 
         public BaseEventSenderHubConnectionsCache(ILogger<BaseEventSenderHubConnectionsCache<THub, TModelGet>> logger)
         {
+            _clientLocker = new object();
             _hubClients = new List<IEventSenderHubClient>();
             _logger = logger;
 
             _logger.LogInformation($"{typeof(BaseEventSenderHubConnectionsCache<THub, TModelGet>)} created successfully.");
         }
 
-        //~EventSenderHubConnectionCache()
-        //{
-        //    _logger.LogInformation($"{typeof(EventSenderHubConnectionCache<THub>)} destructed successfully.");
-        //}
-
-        public virtual async Task AddClientAsync(string id, string connectionId)
+        public virtual void AddClient(string id, string connectionId)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                var client = _hubClients.FirstOrDefault(x => x.Id == id);
+                if (client == null)
+                {
+                    client = new EventSenderHubClient()
+                    {
+                        Id = id,
+                        ConnectionIds = new List<string> { connectionId }
+                    };
+                    _hubClients.Add(client);
+                }
+            }
         }
 
-        public virtual async Task<IEventSenderHubClient> GetClientByIdAsync(string id)
+        public virtual IEventSenderHubClient GetClientById(string id)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                return _hubClients.FirstOrDefault(x => x.Id == id);
+            }
         }
 
-        public virtual async Task<IEnumerable<IEventSenderHubClient>> GetClientsByIdsAsync(IEnumerable<string> ids)
+        public virtual IEnumerable<IEventSenderHubClient> GetClientsByIds(IEnumerable<string> ids)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                return _hubClients.Where(x => ids.Contains(x.Id));
+            }
         }
 
-        public virtual async Task<IEventSenderHubClient> GetClientByConnectionIdAsync(string connectionId)
+        public virtual IEventSenderHubClient GetClientByConnectionId(string connectionId)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                return _hubClients.FirstOrDefault(x => x.ConnectionIds.Any(c => c == connectionId));
+            }
         }
 
-        public virtual async Task<IEnumerable<IEventSenderHubClient>> GetAllClientsAsync()
+        public virtual IEnumerable<IEventSenderHubClient> GetAllClients()
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                return _hubClients.ToList();
+            }
         }
 
-        public virtual async Task RemoveClientAsync(string id)
+        public virtual void RemoveClient(string id)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                var client = _hubClients.FirstOrDefault(x => x.Id == id);
+                if(client != null)
+                {
+                    _hubClients.Remove(client);
+                }
+            }
         }
 
 
-        public virtual async Task AddConnectionAsync(string connectionId, string clientId)
+        public virtual void AddConnection(string connectionId, string clientId)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                var client = _hubClients.FirstOrDefault(x => x.Id == clientId && !x.ConnectionIds.Contains(connectionId));
+                if (client != null)
+                {
+                    client.ConnectionIds.Add(connectionId);
+                }
+            }
         }
 
-        public virtual async Task<IEnumerable<string>> GetConnectionIdsByClientIdsAsync(params string[] ids)
+        public virtual IEnumerable<string> GetConnectionIdsByClientIds(params string[] ids)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                var clients = _hubClients.Where(x => ids.Contains(x.Id));
+                return clients.SelectMany(x => x.ConnectionIds);
+            }
         }
 
-        public virtual async Task<IEnumerable<string>> GetAllConnectionsAsync()
+        public virtual IEnumerable<string> GetAllConnections()
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                return _hubClients.SelectMany(x => x.ConnectionIds);
+            }
         }
 
-        public virtual async Task RemoveConnectionAsync(string connectionId, string clientId)
+        public virtual void RemoveConnection(string connectionId, string clientId)
         {
-            throw new NotImplementedException();
+            lock (_clientLocker)
+            {
+                var client = _hubClients.FirstOrDefault(x => x.ConnectionIds.Any(y => y == connectionId));
+                if (client != null)
+                {
+                    client.ConnectionIds.Remove(connectionId);
+                }
+            }
         }
     }
 }
