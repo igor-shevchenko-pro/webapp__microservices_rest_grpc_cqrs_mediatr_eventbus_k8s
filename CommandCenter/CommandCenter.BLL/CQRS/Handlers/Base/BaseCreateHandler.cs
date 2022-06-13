@@ -2,8 +2,8 @@
 using CommandCenter.Core.Interfaces.CQRS.Commands.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.Base;
 using CommandCenter.Core.Interfaces.Entities.Base;
-using CommandCenter.Core.Interfaces.EventSenderHubs;
-using CommandCenter.Core.Interfaces.EventSenderHubs.Base;
+using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs;
+using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs.Base;
 using CommandCenter.Core.Interfaces.Profiles.MapperProfiles;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Interfaces.Resources.Base;

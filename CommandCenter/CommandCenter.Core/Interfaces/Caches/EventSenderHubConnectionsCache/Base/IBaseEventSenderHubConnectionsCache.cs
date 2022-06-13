@@ -1,4 +1,4 @@
-﻿using CommandCenter.Core.Interfaces.EventSenderHubs.Base;
+﻿using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs.Base;
 using CommandCenter.Core.Interfaces.Resources.Base;
 using System.Collections.Generic;
 

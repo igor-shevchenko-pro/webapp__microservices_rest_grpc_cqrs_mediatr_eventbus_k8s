@@ -10,13 +10,15 @@ using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache;
 using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers;
-using CommandCenter.Core.Interfaces.EventSenderHubs;
+using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs;
+using CommandCenter.Core.Interfaces.EventSenders.EventSenderManagers;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Repositories;
 using CommandCenter.Core.Resources;
 using CommandCenter.DAL.PostgreSQL;
 using CommandCenter.DAL.Repositories;
+using CommandCenter.DataProviders.SignalR.EventSenderManagers;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -97,6 +99,10 @@ namespace CommandCenter.API.Configurations.DI
             // Caches
             services.AddSingleton<IFrameworkEventSenderHubConnectionsCache, FrameworkEventSenderHubConnectionsCache>();
             services.AddSingleton<IProtocolEventSenderHubConnectionsCache, ProtocolEventSenderHubConnectionsCache>();
+
+            // Managers
+            services.AddScoped<IFrameworkEventSenderManager, FrameworkEventSenderManager>();
+            services.AddScoped<IProtocolEventSenderManager, ProtocolEventSenderManager>();
         }
     }
 }
