@@ -40,7 +40,8 @@ namespace CommandCenter.DataProviders.SignalR.EventSenderManagers.Base
             IBaseEventSenderHubConnectionsCache<IBaseEventSenderHub<TModelGet>, TModelGet> eventSenderHubConnectionsCache,
             ILogger<BaseEventSenderManager<TModelGet>> logger)
         {
-            _hubMethod = configuration[$"SocketAPI:{typeof(TModelGet)}:Method"];
+            _hubMethod = configuration[$"SocketAPI:{typeof(TModelGet).Name}:Method"];
+            _configuration = configuration;
             _hubContext = hubContext;
             _eventSenderHubConnectionsCache = eventSenderHubConnectionsCache;
             _logger = logger;

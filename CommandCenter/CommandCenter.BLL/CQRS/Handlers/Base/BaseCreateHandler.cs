@@ -2,8 +2,7 @@
 using CommandCenter.Core.Interfaces.CQRS.Commands.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.Base;
 using CommandCenter.Core.Interfaces.Entities.Base;
-using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs;
-using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs.Base;
+using CommandCenter.Core.Interfaces.EventSenders.EventSenderManagers.Base;
 using CommandCenter.Core.Interfaces.Profiles.MapperProfiles;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Interfaces.Resources.Base;
@@ -13,24 +12,25 @@ using System.Threading.Tasks;
 
 namespace CommandCenter.BLL.CQRS.Handlers.Base
 {
-    public abstract class BaseCreateHandler<TEntity, TModelCreate> : IBaseCreateHandler<TEntity, TModelCreate>
+    public abstract class BaseCreateHandler<TEntity, TModelCreate, TModelGet> : IBaseCreateHandler<TEntity, TModelCreate, TModelGet>
         where TEntity : class, IBaseEntity, new()
         where TModelCreate : class, IBaseResource
+        where TModelGet : class, IBaseResource
     {
         protected readonly IBaseRepository<TEntity> _repository;
         protected readonly IDataMapper _dataMapper;
-        //protected readonly IBaseEventSenderHub<TModelGet> _eventSenderHub;
-        protected readonly ILogger<BaseCreateHandler<TEntity, TModelCreate>> _logger;
+        protected readonly IBaseEventSenderManager<TModelGet> _eventSenderManager;
+        protected readonly ILogger<BaseCreateHandler<TEntity, TModelCreate, TModelGet>> _logger;
 
         public BaseCreateHandler(
             IBaseRepository<TEntity> repository,
             IDataMapper dataMapper,
-            //IBaseEventSenderHub<TModelGet> _eventSenderHub,
-            ILogger<BaseCreateHandler<TEntity, TModelCreate>> logger)
+            IBaseEventSenderManager<TModelGet> eventSenderManager,
+            ILogger<BaseCreateHandler<TEntity, TModelCreate, TModelGet>> logger)
         {
             _repository = repository;
             _dataMapper = dataMapper;
-            //_eventSenderHub = _eventSenderHub; // <--
+            _eventSenderManager = eventSenderManager;
             _logger = logger;
         }
 
@@ -45,8 +45,8 @@ namespace CommandCenter.BLL.CQRS.Handlers.Base
             _logger.LogInformation($"{typeof(TEntity)} entity with Id {id} was created successfully.");
 
 
-            // need refactoring <--
-            //await _protocolEventSenderHub.UpdateGeneralStatusAsync(entity);
+            //// SignalR
+            //await _eventSenderManager.SendToClientAsync();
 
             return id;
         }

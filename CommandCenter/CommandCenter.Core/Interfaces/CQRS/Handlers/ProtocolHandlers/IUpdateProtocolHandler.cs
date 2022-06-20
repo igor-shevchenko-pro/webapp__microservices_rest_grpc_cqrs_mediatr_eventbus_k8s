@@ -4,7 +4,7 @@ using CommandCenter.Core.Resources;
 
 namespace CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers
 {
-    public interface IUpdateProtocolHandler : IBaseUpdateHandler<Protocol, ProtocolCreateResource>
+    public interface IUpdateProtocolHandler : IBaseUpdateHandler<Protocol, ProtocolCreateResource, ProtocolGetResource>
     {
     }
 }

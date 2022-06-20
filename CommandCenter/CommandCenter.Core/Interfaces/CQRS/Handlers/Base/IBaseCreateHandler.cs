@@ -5,9 +5,10 @@ using MediatR;
 
 namespace CommandCenter.Core.Interfaces.CQRS.Handlers.Base
 {
-    public interface IBaseCreateHandler<TEntity, TModelCreate> : IRequestHandler<IBaseCreateCommand<TModelCreate>, string>
+    public interface IBaseCreateHandler<TEntity, TModelCreate, TModelGet> : IRequestHandler<IBaseCreateCommand<TModelCreate>, string>
         where TEntity : class, IBaseEntity, new()
         where TModelCreate : class, IBaseResource
+        where TModelGet : class, IBaseResource
     {
     }
 }

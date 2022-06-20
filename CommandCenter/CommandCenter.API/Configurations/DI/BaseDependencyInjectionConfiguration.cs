@@ -6,12 +6,14 @@ using CommandCenter.BLL.EventSenderHubs;
 using CommandCenter.Core.Caches.EventSenderHubConnectionsCache;
 using CommandCenter.Core.Caches.EventSenderHubConnectionsCache.Base;
 using CommandCenter.Core.Entities;
+using CommandCenter.Core.Helpers.ModelHelpers;
 using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache;
 using CommandCenter.Core.Interfaces.Caches.EventSenderHubConnectionsCache.Base;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers;
 using CommandCenter.Core.Interfaces.CQRS.Handlers.ProtocolHandlers;
 using CommandCenter.Core.Interfaces.EventSenders.EventSenderHubs;
 using CommandCenter.Core.Interfaces.EventSenders.EventSenderManagers;
+using CommandCenter.Core.Interfaces.Helpers;
 using CommandCenter.Core.Interfaces.Repositories;
 using CommandCenter.Core.Interfaces.Repositories.Base;
 using CommandCenter.Core.Repositories;
@@ -51,6 +53,12 @@ namespace CommandCenter.API.Configurations.DI
             services.AddScoped(typeof(IDbProviderRepository<>), typeof(PostgreSQLRepository<>));
             services.AddScoped<IFrameworkRepository, FrameworkRepository>();
             services.AddScoped<IProtocolRepository, ProtocolRepository>();
+        }
+
+        // Helpers
+        public virtual void RegisterHelpers(ref IServiceCollection services)
+        {
+            services.AddScoped<IResourceTypeHelper, ResourceTypeHelper>();
         }
 
         // CQRS

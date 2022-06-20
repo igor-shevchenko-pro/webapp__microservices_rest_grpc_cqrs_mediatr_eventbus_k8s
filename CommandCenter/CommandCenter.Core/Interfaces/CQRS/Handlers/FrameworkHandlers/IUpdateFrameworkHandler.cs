@@ -4,7 +4,7 @@ using CommandCenter.Core.Resources;
 
 namespace CommandCenter.Core.Interfaces.CQRS.Handlers.FrameworkHandlers
 {
-    public interface IUpdateFrameworkHandler : IBaseUpdateHandler<Framework, FrameworkCreateResource>
+    public interface IUpdateFrameworkHandler : IBaseUpdateHandler<Framework, FrameworkCreateResource, FrameworkGetResource>
     {
     }
 }

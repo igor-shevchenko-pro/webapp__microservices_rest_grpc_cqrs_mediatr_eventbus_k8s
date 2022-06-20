@@ -6,14 +6,24 @@ namespace CommandCenter.Core.Models.EventSenderNotifications
 {
     public class EventSenderNotificationModel
     {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("description")]
+        public string? Description { get; set; } = default!;
+
         [JsonProperty("created")] 
         public DateTime Created { get; set; }
 
-        [JsonProperty("title")] 
-        public string Title { get; set; } = default!;
 
-        [JsonProperty("description")] 
-        public string? Description { get; set; }
+        [JsonProperty("notificationType")]
+        public NotificationType NotificationType { get; set; }
+
+        [JsonProperty("notificationStatus")]
+        public NotificationStatus NotificationStatus { get; set; }
+
+        [JsonProperty("notificationDataType")]
+        public NotificationDataType NotificationDataType { get; set; }
 
 
         [JsonProperty("fromUserId")] 
@@ -21,16 +31,6 @@ namespace CommandCenter.Core.Models.EventSenderNotifications
 
         [JsonProperty("toUserId")] 
         public string? ToUserId { get; set; } = default!;
-
-
-        [JsonProperty("notificationType")] 
-        public NotificationType NotificationType { get; set; }
-
-        [JsonProperty("notificationStatus")] 
-        public NotificationStatus NotificationStatus { get; set; }
-
-        [JsonProperty("notificationDataType")] 
-        public NotificationDataType NotificationDataType { get; set; }
 
 
         [JsonProperty("data")]

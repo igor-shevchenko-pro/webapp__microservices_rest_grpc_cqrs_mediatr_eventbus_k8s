@@ -24,10 +24,10 @@ namespace CommandCenter.DataProviders.SignalR.EventSenderManagers
         /// <param name="logger"></param>
         public ProtocolEventSenderManager(
             IConfiguration configuration,
-            IHubContext<ProtocolEventSenderHub> hubContext,
+            IHubContext<BaseEventSenderHub<ProtocolGetResource>> hubContext,
             IProtocolEventSenderHubConnectionsCache eventSenderHubConnectionsCache,
             ILogger<ProtocolEventSenderManager> logger)
-            : base(configuration, (IHubContext<BaseEventSenderHub<ProtocolGetResource>>)hubContext, eventSenderHubConnectionsCache, logger)
+            : base(configuration, hubContext, eventSenderHubConnectionsCache, logger)
         {
         }
     }

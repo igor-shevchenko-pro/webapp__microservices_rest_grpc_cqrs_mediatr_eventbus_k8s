@@ -24,10 +24,10 @@ namespace CommandCenter.DataProviders.SignalR.EventSenderManagers
         /// <param name="logger"></param>
         public FrameworkEventSenderManager(
             IConfiguration configuration,
-            IHubContext<FrameworkEventSenderHub> hubContext,
+            IHubContext<BaseEventSenderHub<FrameworkGetResource>> hubContext,
             IFrameworkEventSenderHubConnectionsCache eventSenderHubConnectionsCache,
             ILogger<FrameworkEventSenderManager> logger)
-            : base(configuration, (IHubContext<BaseEventSenderHub<FrameworkGetResource>>)hubContext, eventSenderHubConnectionsCache, logger)
+            : base(configuration, hubContext, eventSenderHubConnectionsCache, logger)
         {
         }
     }
